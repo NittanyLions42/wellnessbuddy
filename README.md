@@ -11,6 +11,7 @@ Welcome! This guide will walk you through how to set up before contributing to d
 - [Install JDK](https://www.oracle.com/java/technologies/downloads/) (Version TBD)
 - [Install Andriod Studio](https://developer.android.com/studio)
 
+- Test edit
 
 
 
