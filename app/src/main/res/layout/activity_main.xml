@@ -55,14 +55,14 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/location_name_editTextText"
                         style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
-                        android:layout_width="120dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:fontFamily="@font/roboto_regular"
@@ -179,18 +179,18 @@
 
                     <TextView
                         android:id="@+id/sunrise_label_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="TextView"
+                        android:text="@string/sunrise_label_text"
                         android:textColor="@color/White_Out" />
 
                     <TextView
                         android:id="@+id/sunrise_time_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="TextView"
+                        android:text="7:10 AM"
                         android:textColor="@color/White_Out" />
 
                 </LinearLayout>
@@ -204,22 +204,24 @@
                     android:id="@+id/precip_linearlayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:textAlignment="center">
 
                     <TextView
                         android:id="@+id/precip_label_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="TextView"
+                        android:text="@string/precip_label_text"
                         android:textColor="@color/White_Out" />
 
                     <TextView
                         android:id="@+id/preceip_value_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="TextView"
+                        android:text="0.06 in"
+                        android:textAlignment="center"
                         android:textColor="@color/White_Out" />
                 </LinearLayout>
 
@@ -236,18 +238,18 @@
 
                     <TextView
                         android:id="@+id/sunset_label_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="TextView"
+                        android:text="@string/sunset_label_text"
                         android:textColor="@color/White_Out" />
 
                     <TextView
                         android:id="@+id/sunset_time_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="TextView"
+                        android:text="7:10 PM"
                         android:textColor="@color/White_Out" />
                 </LinearLayout>
 
@@ -282,12 +284,13 @@
         <EditText
             android:id="@+id/zipcode_editTextNumber"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:autoText="false"
             android:background="@color/White_Out"
             android:ems="10"
             android:hint="@string/zipcode_hint_text"
             android:inputType="number"
+            android:padding="5dp"
             android:textAlignment="center"
             android:textColor="@color/Brenda_Gray" />
 
@@ -298,8 +301,9 @@
 
         <Button
             android:id="@+id/zipcode_enter_button"
-            android:layout_width="106dp"
-            android:layout_height="wrap_content"
+            android:layout_width="102dp"
+            android:layout_height="35dp"
+            android:padding="0dp"
             android:text="Enter" />
 
     </LinearLayout>
