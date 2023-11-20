@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MainActivity</string>
+    <string name="weather_card_title">5 Day Weather Forecast</string>
+    <string name="zipcode_hint_text">zipcode</string>
+    <string name="sunrise_label_text">Sunrise</string>
+    <string name="precip_label_text">Precipitation</string>
+    <string name="sunset_label_text">Sunset</string>
 </resources>
