@@ -43,6 +43,7 @@
             android:visibility="visible">
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -64,6 +65,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
+                        android:fontFamily="@font/roboto_regular"
                         android:inputType="text"
                         android:outlineProvider="none"
                         android:padding="0dp"
@@ -88,6 +90,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
+                        android:fontFamily="@font/roboto_regular"
                         android:inputType="date"
                         android:outlineProvider="none"
                         android:padding="0dp"
@@ -157,6 +160,97 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/weather_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                <LinearLayout
+                    android:id="@+id/sunrise_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sunrise_label_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="TextView"
+                        android:textColor="@color/White_Out" />
+
+                    <TextView
+                        android:id="@+id/sunrise_time_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="TextView"
+                        android:textColor="@color/White_Out" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/precip_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/precip_label_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="TextView"
+                        android:textColor="@color/White_Out" />
+
+                    <TextView
+                        android:id="@+id/preceip_value_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="TextView"
+                        android:textColor="@color/White_Out" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/sunset_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sunset_label_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="TextView"
+                        android:textColor="@color/White_Out" />
+
+                    <TextView
+                        android:id="@+id/sunset_time_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="TextView"
+                        android:textColor="@color/White_Out" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
