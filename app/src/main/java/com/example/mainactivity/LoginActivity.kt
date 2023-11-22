@@ -1,5 +1,6 @@
 package com.example.mainactivity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mainactivity.databinding.ActivityLoginBinding
@@ -19,10 +20,15 @@ class LoginActivity : AppCompatActivity() {
         // setting the content view to the root of the binding variable KF 11/22/2023
         setContentView(binding.root)
 
+        // setting the onClickListener for the login button KF 11/22/2023
         binding.loginButton.setOnClickListener {
-            val username = binding.
-        }
 
+            // creating an intent to start the MainActivity KF 11/22/2023
+            val intent = Intent(this, MainActivity::class.java)
+
+            // starting the MainActivity KF 11/22/2023
+            startActivity(intent)
+        }
 
         // Removed old view binding code KF 11/22/2023
         //setContentView(R.layout.activity_login)
