@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MainActivity</string>
+    <string name="app_name">WellnessBuddy</string>
     <string name="weather_card_title">5 Day Weather Forecast</string>
     <string name="zipcode_hint_text">zipcode</string>
     <string name="sunrise_label_text">Sunrise</string>
@@ -11,4 +11,10 @@
         for five hours straight Go outside and touch some grass It seems
         like you’ve been studying for five hours straight</string>
     <string name="recommended_activity_button_text">Generate Random Activity</string>
+    <string name="login_title_text">Wellness Buddy</string>
+    <string name="username_hint_text">username</string>
+    <string name="password_hint_text">password</string>
+    <string name="login_button_text">Login</string>
+    <string name="register_button_text">Register</string>
+    <string name="register_title_text">New User?</string>
 </resources>
