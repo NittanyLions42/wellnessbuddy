@@ -5,4 +5,10 @@
     <string name="sunrise_label_text">Sunrise</string>
     <string name="precip_label_text">Precipitation</string>
     <string name="sunset_label_text">Sunset</string>
+    <string name="recommended_activity_area_title">Recommended Activity</string>
+    <string name="recommended_activity_short_desc_text">Touch Some Grass</string>
+    <string name="recommended_activity_long_desc_text">Go outside and touch some grass It seems like you’ve been studying
+        for five hours straight Go outside and touch some grass It seems
+        like you’ve been studying for five hours straight</string>
+    <string name="recommended_activity_button_text">Generate Random Activity</string>
 </resources>
