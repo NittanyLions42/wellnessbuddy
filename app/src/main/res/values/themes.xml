@@ -21,6 +21,9 @@
 
     </style>
 
+    <style name="CardView." parent="CardView">
+        <item name="android:background">@drawable/card_gradient</item>
+    </style>
 
 
 <!--    <style name="Theme.MainActivity" parent="Base.Theme.MainActivity" />-->
