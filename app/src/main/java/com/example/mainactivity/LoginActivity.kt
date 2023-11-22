@@ -20,16 +20,15 @@ class LoginActivity : AppCompatActivity() {
         // setting the content view to the root of the binding variable KF 11/22/2023
         setContentView(binding.root)
 
-        // Added listener to start MainActivity KF 11/22/2023
+        // setting the onClickListener for the login button KF 11/22/2023
         binding.loginButton.setOnClickListener {
 
-            // Added intent to start MainActivity KF 11/22/2023
+            // creating an intent to start the MainActivity KF 11/22/2023
             val intent = Intent(this, MainActivity::class.java)
 
-            // Added intent to start MainActivity KF 11/22/2023
+            // starting the MainActivity KF 11/22/2023
             startActivity(intent)
         }
-
 
         // Removed old view binding code KF 11/22/2023
         //setContentView(R.layout.activity_login)
