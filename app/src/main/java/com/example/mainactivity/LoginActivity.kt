@@ -30,6 +30,16 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // setting the onClickListener for the register button KF 11/22/2023
+        binding.registerButton.setOnClickListener() {
+
+            // creating an intent to start the RegistrationActivity KF 11/22/2023
+            val intent = Intent(this, RegistrationActivity::class.java)
+
+            // starting the RegistrationActivity KF 11/22/2023
+            startActivity(intent)
+        }
+
         // Removed old view binding code KF 11/22/2023
         //setContentView(R.layout.activity_login)
     }

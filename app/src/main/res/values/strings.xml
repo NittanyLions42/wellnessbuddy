@@ -12,9 +12,14 @@
         like you’ve been studying for five hours straight</string>
     <string name="recommended_activity_button_text">Generate Random Activity</string>
     <string name="login_title_text">Wellness Buddy</string>
-    <string name="username_hint_text">username</string>
-    <string name="password_hint_text">password</string>
+    <string name="username_hint_text">Username</string>
+    <string name="password_hint_text">Password</string>
+    <string name="retype_password_text">Re-type Password</string>
     <string name="login_button_text">Login</string>
     <string name="register_button_text">Register</string>
     <string name="register_title_text">New User?</string>
+    <string name="existing_user_text">Existing User?</string>
+    <string name="switch_student_text">Student</string>
+    <string name="switch_faulty_text">Faculty</string>
+    <string name="student_facutly_switch_text">Student/Faculty</string>
 </resources>
