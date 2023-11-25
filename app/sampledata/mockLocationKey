@@ -1,0 +1,11 @@
+{
+    "PrimaryPostalCode": "98004",
+    "AdministrativeArea": {
+        "ID": "WA"
+    },
+    "ParentCity": {
+        "Key": "331424",
+        "LocalizedName": "Bellevue",
+        "EnglishName": "Bellevue"
+    }
+}
