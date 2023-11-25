@@ -1,0 +1,333 @@
+{
+  "DailyForecasts": [
+    {
+      "Date": "2023-11-25",
+      "Temperature": {
+        "Minimum": {
+          "Value": 32,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 45,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 2,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 30,
+          "Category": "Good"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Sunny",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 10.0,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Clear",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 5.0,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    },
+    {
+      "Date": "2023-11-26",
+      "Temperature": {
+        "Minimum": {
+          "Value": 30,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 50,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 1,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 52,
+          "Category": "Moderate"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Showers",
+        "HasPrecipitation": true,
+        "PrecipitationProbability": 55,
+        "Wind": {
+          "Speed": {
+            "Value": 6.9,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Rain",
+        "HasPrecipitation": true,
+        "PrecipitationProbability": 92,
+        "Wind": {
+          "Speed": {
+            "Value": 4.6,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    },
+    {
+      "Date": "2023-11-27",
+      "Temperature": {
+        "Minimum": {
+          "Value": 40,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 50,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 1,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 53,
+          "Category": "Moderate"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Cloudy",
+        "HasPrecipitation": true,
+        "PrecipitationProbability": 40,
+        "Wind": {
+          "Speed": {
+            "Value": 5.8,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Intermittent Clouds",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 15,
+        "Wind": {
+          "Speed": {
+            "Value": 5.0,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    },
+    {
+      "Date": "2023-11-28",
+      "Temperature": {
+        "Minimum": {
+          "Value": 33,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 49,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 2,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 53,
+          "Category": "Moderate"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Mostly cloudy",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 12,
+        "Wind": {
+          "Speed": {
+            "Value": 5.8,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Mostly cloudy",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 8,
+        "Wind": {
+          "Speed": {
+            "Value": 4.6,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    },
+    {
+      "Date": "2023-11-27",
+      "Temperature": {
+        "Minimum": {
+          "Value": 33,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 48,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 2,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 54,
+          "Category": "Moderate"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Sunny",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 7,
+        "Wind": {
+          "Speed": {
+            "Value": 5.8,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Mostly clear",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 7,
+        "Wind": {
+          "Speed": {
+            "Value": 4.6,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    },
+    {
+      "Date": "2023-11-29",
+      "Temperature": {
+        "Minimum": {
+          "Value": 32,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 45,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 2,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 30,
+          "Category": "Good"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Sunny",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 10.0,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Clear",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 5.0,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    },
+    {
+      "Date": "2023-11-27",
+      "Temperature": {
+        "Minimum": {
+          "Value": 45,
+          "Unit": "F"
+        },
+        "Maximum": {
+          "Value": 55,
+          "Unit": "F"
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "UVIndex",
+          "Value": 1,
+          "Category": "Low"
+        },
+        {
+          "Name": "AirQuality",
+          "Value": 30,
+          "Category": "Good"
+        }
+      ],
+      "Day": {
+        "IconPhrase": "Sunny",
+        "HasPrecipitation": false,
+        "PrecipitationProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 10.0,
+            "Unit": "mi/h"
+          }
+        }
+      },
+      "Night": {
+        "IconPhrase": "Shower",
+        "HasPrecipitation": true,
+        "PrecipitationProbability": 55,
+        "Wind": {
+          "Speed": {
+            "Value": 6.9,
+            "Unit": "mi/h"
+          }
+        }
+      }
+    }
+  ]
+}
