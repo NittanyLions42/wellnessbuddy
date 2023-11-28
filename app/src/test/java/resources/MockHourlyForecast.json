@@ -1,0 +1,96 @@
+{
+  "HourlyForecasts": [
+    {
+      "DateTime": "2023-11-25T06:00:00-08:00",
+      "Temperature": {
+        "Value": 30.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T07:00:00-08:00",
+      "Temperature": {
+        "Value": 31.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T08:00:00-08:00",
+      "Temperature": {
+        "Value": 33.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T09:00:00-08:00",
+      "Temperature": {
+        "Value": 35.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T10:00:00-08:00",
+      "Temperature": {
+        "Value": 37.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T11:00:00-08:00",
+      "Temperature": {
+        "Value": 40.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T12:00:00-08:00",
+      "Temperature": {
+        "Value": 42.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T13:00:00-08:00",
+      "Temperature": {
+        "Value": 44.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T14:00:00-08:00",
+      "Temperature": {
+        "Value": 46.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T15:00:00-08:00",
+      "Temperature": {
+        "Value": 47.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T16:00:00-08:00",
+      "Temperature": {
+        "Value": 45.0,
+        "Unit": "F"
+      }
+    },
+    {
+      "DateTime": "2023-11-25T17:00:00-08:00",
+      "Temperature": {
+        "Value": 43.0,
+        "Unit": "F"
+      }
+    }
+  ]
+}
+
+
+[
+  {
+    "HourlyForecasts": [
+      {
+        "DateTime":"2023-11-25T06:00:00-08:00",
+        "Temperature":{"Value":30.0,"Unit":"F"}},{"DateTime":"2023-11-25T07:00:00-08:00","Temperature":{"Value":31.0,"Unit":"F"}},{"DateTime":"2023-11-25T08:00:00-08:00","Temperature":{"Value":31.0,"Unit":"F"}},{"DateTime":"2023-11-25T09:00:00-08:00","Temperature":{"Value":31.0,"Unit":"F"}},{"DateTime":"2023-11-25T10:00:00-08:00","Temperature":{"Value":31.0,"Unit":"F"}},{"DateTime":"2023-11-25T11:00:00-08:00","Temperature":{"Value":33.0,"Unit":"F"}},{"DateTime":"2023-11-25T12:00:00-08:00","Temperature":{"Value":33.0,"Unit":"F"}},{"DateTime":"2023-11-25T13:00:00-08:00","Temperature":{"Value":35.0,"Unit":"F"}},{"DateTime":"2023-11-25T14:00:00-08:00","Temperature":{"Value":35.0,"Unit":"F"}},{"DateTime":"2023-11-25T15:00:00-08:00","Temperature":{"Value":38.0,"Unit":"F"}},{"DateTime":"2023-11-25T16:00:00-08:00","Temperature":{"Value":40.0,"Unit":"F"}},{"DateTime":"2023-11-25T17:00:00-08:00","Temperature":{"Value":43.0,"Unit":"F"}}]}]

@@ -1,4 +1,4 @@
-package com.example.mainactivity.model
+package com.example.mainactivity.network.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -22,7 +22,7 @@ data class LocationResponse(
  * Contains information about the administrative area of a location.
  * Typically represents data like the state or province.
  *
- * @property stateId The identifier of the administrative area (e.g., state abbreviation).
+ * @property stateId The identifier of the administrative area
  */
 @JsonClass(generateAdapter = true)
 data class AdministrativeArea(

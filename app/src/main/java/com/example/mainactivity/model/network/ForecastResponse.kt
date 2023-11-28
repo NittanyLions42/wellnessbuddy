@@ -1,4 +1,4 @@
-package com.example.mainactivity.model
+package com.example.mainactivity.model.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -30,7 +30,7 @@ data class DailyForecast(
     @Json(name = "Temperature") val temperature: TemperatureInfo,
     @Json(name = "AirAndPollen") val airAndPollen: List<AirAndPollen>,
     @Json(name = "Day") val day: DayForecast,
-    @Json(name = "Night") val night: DayForecast,
+    @Json(name = "Night") val night: NightForecast,
 )
 
 /**
@@ -83,7 +83,15 @@ data class AirAndPollen( //  For AirQuality and UVIndex
 data class DayForecast(
     @Json(name = "IconPhrase") val iconPhrase: String,
     @Json(name = "HasPrecipitation") val hasPrecipitation: Boolean,
-    @Json(name = "PrecipitationProbability") val dayPrecipitation: Double,
+    @Json(name = "PrecipitationProbability") val dayPrecipitation: Int,
+    @Json(name = "Wind") val wind: Wind
+)
+
+@JsonClass(generateAdapter = true)
+data class NightForecast(
+    @Json(name = "IconPhrase") val iconPhrase: String,
+    @Json(name = "HasPrecipitation") val hasPrecipitation: Boolean,
+    @Json(name = "PrecipitationProbability") val nightPrecipitation: Int,
     @Json(name = "Wind") val wind: Wind
 )
 
