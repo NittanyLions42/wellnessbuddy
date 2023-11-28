@@ -1,4 +1,4 @@
-package com.example.mainactivity
+package mainactivity
 
 import com.example.mainactivity.model.network.AirAndPollen
 import com.example.mainactivity.model.network.DailyForecast
@@ -18,7 +18,9 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-
+/**
+ * Object containing methods to generate test data for network responses.
+ */
 object TestDataFactory {
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -41,7 +43,8 @@ object TestDataFactory {
             .add(KotlinJsonAdapterFactory())
             .build()
 
-        val listType = Types.newParameterizedType(List::class.java, HourlyForecastResponse::class.java)
+        val listType =
+            Types.newParameterizedType(List::class.java, HourlyForecastResponse::class.java)
         val adapter = moshi.adapter<List<HourlyForecastResponse>>(listType)
 
         return adapter.toJson(hourlyForecastResponseList)
@@ -74,43 +77,103 @@ object TestDataFactory {
             dailyForecasts = listOf(
                 createSpecificDailyForecast(
                     date = "2023-11-25",
-                    minTemp = 32, maxTemp = 45, tempUnit = "F",
-                    uvIndexValue = 2, uvIndexCategory = "Low",
-                    airQualityValue = 30, airQualityCategory = "Good",
-                    dayIconPhrase = "Sunny", dayHasPrecipitation = false, dayPrecipitationProbability = 0, dayWindValue = 10.0, dayWindUnit = "mi/h",
-                    nightIconPhrase = "Clear", nightHasPrecipitation = false, nightPrecipitationProbability = 0, nightWindValue = 5.0, nightWindUnit = "mi/h"
+                    minTemp = 32,
+                    maxTemp = 45,
+                    tempUnit = "F",
+                    uvIndexValue = 2,
+                    uvIndexCategory = "Low",
+                    airQualityValue = 30,
+                    airQualityCategory = "Good",
+                    dayIconPhrase = "Sunny",
+                    dayHasPrecipitation = false,
+                    dayPrecipitationProbability = 0,
+                    dayWindValue = 10.0,
+                    dayWindUnit = "mi/h",
+                    nightIconPhrase = "Clear",
+                    nightHasPrecipitation = false,
+                    nightPrecipitationProbability = 0,
+                    nightWindValue = 5.0,
+                    nightWindUnit = "mi/h"
                 ),
                 createSpecificDailyForecast(
                     date = "2023-11-26",
-                    minTemp = 32, maxTemp = 45, tempUnit = "F",
-                    uvIndexValue = 2, uvIndexCategory = "Low",
-                    airQualityValue = 38, airQualityCategory = "Good",
-                    dayIconPhrase = "Rainy", dayHasPrecipitation = true, dayPrecipitationProbability = 30, dayWindValue = 10.0, dayWindUnit = "mi/h",
-                    nightIconPhrase = "Rainy", nightHasPrecipitation = true, nightPrecipitationProbability = 60, nightWindValue = 5.0, nightWindUnit = "mi/h"
+                    minTemp = 32,
+                    maxTemp = 45,
+                    tempUnit = "F",
+                    uvIndexValue = 2,
+                    uvIndexCategory = "Low",
+                    airQualityValue = 38,
+                    airQualityCategory = "Good",
+                    dayIconPhrase = "Rainy",
+                    dayHasPrecipitation = true,
+                    dayPrecipitationProbability = 30,
+                    dayWindValue = 10.0,
+                    dayWindUnit = "mi/h",
+                    nightIconPhrase = "Rainy",
+                    nightHasPrecipitation = true,
+                    nightPrecipitationProbability = 60,
+                    nightWindValue = 5.0,
+                    nightWindUnit = "mi/h"
                 ),
                 createSpecificDailyForecast(
                     date = "2023-11-27",
-                    minTemp = 40, maxTemp = 50, tempUnit = "F",
-                    uvIndexValue = 2, uvIndexCategory = "Low",
-                    airQualityValue = 30, airQualityCategory = "Good",
-                    dayIconPhrase = "Sunny", dayHasPrecipitation = false, dayPrecipitationProbability = 0, dayWindValue = 10.0, dayWindUnit = "mi/h",
-                    nightIconPhrase = "Clear", nightHasPrecipitation = false, nightPrecipitationProbability = 0, nightWindValue = 5.0, nightWindUnit = "mi/h"
+                    minTemp = 40,
+                    maxTemp = 50,
+                    tempUnit = "F",
+                    uvIndexValue = 2,
+                    uvIndexCategory = "Low",
+                    airQualityValue = 30,
+                    airQualityCategory = "Good",
+                    dayIconPhrase = "Sunny",
+                    dayHasPrecipitation = false,
+                    dayPrecipitationProbability = 0,
+                    dayWindValue = 10.0,
+                    dayWindUnit = "mi/h",
+                    nightIconPhrase = "Clear",
+                    nightHasPrecipitation = false,
+                    nightPrecipitationProbability = 0,
+                    nightWindValue = 5.0,
+                    nightWindUnit = "mi/h"
                 ),
                 createSpecificDailyForecast(
                     date = "2023-11-28",
-                    minTemp = 48, maxTemp = 55, tempUnit = "F",
-                    uvIndexValue = 2, uvIndexCategory = "Low",
-                    airQualityValue = 30, airQualityCategory = "Good",
-                    dayIconPhrase = "Cloudy", dayHasPrecipitation = false, dayPrecipitationProbability = 0, dayWindValue = 10.0, dayWindUnit = "mi/h",
-                    nightIconPhrase = "Cloudy", nightHasPrecipitation = false, nightPrecipitationProbability = 0, nightWindValue = 5.0, nightWindUnit = "mi/h"
+                    minTemp = 48,
+                    maxTemp = 55,
+                    tempUnit = "F",
+                    uvIndexValue = 2,
+                    uvIndexCategory = "Low",
+                    airQualityValue = 30,
+                    airQualityCategory = "Good",
+                    dayIconPhrase = "Cloudy",
+                    dayHasPrecipitation = false,
+                    dayPrecipitationProbability = 0,
+                    dayWindValue = 10.0,
+                    dayWindUnit = "mi/h",
+                    nightIconPhrase = "Cloudy",
+                    nightHasPrecipitation = false,
+                    nightPrecipitationProbability = 0,
+                    nightWindValue = 5.0,
+                    nightWindUnit = "mi/h"
                 ),
                 createSpecificDailyForecast(
                     date = "2023-11-29",
-                    minTemp = 45, maxTemp = 60, tempUnit = "F",
-                    uvIndexValue = 2, uvIndexCategory = "Low",
-                    airQualityValue = 30, airQualityCategory = "Good",
-                    dayIconPhrase = "Sunny", dayHasPrecipitation = false, dayPrecipitationProbability = 0, dayWindValue = 10.0, dayWindUnit = "mi/h",
-                    nightIconPhrase = "Clear", nightHasPrecipitation = false, nightPrecipitationProbability = 0, nightWindValue = 5.0, nightWindUnit = "mi/h"
+                    minTemp = 45,
+                    maxTemp = 60,
+                    tempUnit = "F",
+                    uvIndexValue = 2,
+                    uvIndexCategory = "Low",
+                    airQualityValue = 30,
+                    airQualityCategory = "Good",
+                    dayIconPhrase = "Sunny",
+                    dayHasPrecipitation = false,
+                    dayPrecipitationProbability = 0,
+                    dayWindValue = 10.0,
+                    dayWindUnit = "mi/h",
+                    nightIconPhrase = "Clear",
+                    nightHasPrecipitation = false,
+                    nightPrecipitationProbability = 0,
+                    nightWindValue = 5.0,
+                    nightWindUnit = "mi/h"
                 ),
             )
         )
@@ -118,11 +181,23 @@ object TestDataFactory {
 
     private fun createSpecificDailyForecast(
         date: String,
-        minTemp: Int, maxTemp: Int, tempUnit: String,
-        uvIndexValue: Int, uvIndexCategory: String,
-        airQualityValue: Int, airQualityCategory: String,
-        dayIconPhrase: String, dayHasPrecipitation: Boolean, dayPrecipitationProbability: Int, dayWindValue: Double, dayWindUnit: String,
-        nightIconPhrase: String, nightHasPrecipitation: Boolean, nightPrecipitationProbability: Int, nightWindValue: Double, nightWindUnit: String
+        minTemp: Int,
+        maxTemp: Int,
+        tempUnit: String,
+        uvIndexValue: Int,
+        uvIndexCategory: String,
+        airQualityValue: Int,
+        airQualityCategory: String,
+        dayIconPhrase: String,
+        dayHasPrecipitation: Boolean,
+        dayPrecipitationProbability: Int,
+        dayWindValue: Double,
+        dayWindUnit: String,
+        nightIconPhrase: String,
+        nightHasPrecipitation: Boolean,
+        nightPrecipitationProbability: Int,
+        nightWindValue: Double,
+        nightWindUnit: String
     ): DailyForecast {
         return DailyForecast(
             date = date,
@@ -132,7 +207,11 @@ object TestDataFactory {
             ),
             airAndPollen = listOf(
                 AirAndPollen(name = "UVIndex", value = uvIndexValue, category = uvIndexCategory),
-                AirAndPollen(name = "AirQuality", value = airQualityValue, category = airQualityCategory)
+                AirAndPollen(
+                    name = "AirQuality",
+                    value = airQualityValue,
+                    category = airQualityCategory
+                )
             ),
             day = DayForecast(
                 iconPhrase = dayIconPhrase,
@@ -189,53 +268,51 @@ object TestDataFactory {
             HourlyForecastResponse(
                 dateTime = "2023-11-25T06:00:00-08:00",
                 temperature = Temperature(30.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T07:00:00-08:00",
                 temperature = Temperature(31.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T08:00:00-08:00",
                 temperature = Temperature(31.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T09:00:00-08:00",
                 temperature = Temperature(31.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T10:00:00-08:00",
                 temperature = Temperature(30.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T11:00:00-08:00",
                 temperature = Temperature(33.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T12:00:00-08:00",
                 temperature = Temperature(30.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T13:00:00-08:00",
                 temperature = Temperature(33.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T14:00:00-08:00",
                 temperature = Temperature(35.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T15:00:00-08:00",
                 temperature = Temperature(35.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T16:00:00-08:00",
                 temperature = Temperature(40.0, "F")
-        ),
+            ),
             HourlyForecastResponse(
                 dateTime = "2023-11-25T17:00:00-08:00",
                 temperature = Temperature(31.0, "F")
-        )
+            )
         )
     }
 }
-
-

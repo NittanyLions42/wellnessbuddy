@@ -6,6 +6,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * Interface representing the Weather Service API for retrieving weather-related data.
+ */
 interface WeatherService {
     @GET("locations/v1/postalcodes/search")
     suspend fun getLocationsKey(
