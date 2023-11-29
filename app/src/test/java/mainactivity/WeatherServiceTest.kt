@@ -1,4 +1,4 @@
-package com.example.mainactivity
+package mainactivity
 
 import com.example.mainactivity.model.network.ForecastResponse
 import com.example.mainactivity.model.network.WeatherService
@@ -11,7 +11,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.runBlocking
-import mainactivity.TestDataFactory
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 

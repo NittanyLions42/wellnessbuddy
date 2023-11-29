@@ -33,8 +33,6 @@ android {
         buildTypes {
             getByName("debug") {
                 isDebuggable = true
-                isMinifyEnabled = false // Disables code shrinking and obfuscation
-                proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             }
         }
     }
@@ -78,6 +76,8 @@ dependencies {
     // Flexbox dependencies for alginItems & justifyContent: added by BG
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
+
+
     // Materiel dependencies for the dot indication: added by BG
     implementation("com.google.android.material:material:1.10.0")
 
@@ -91,6 +91,8 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
