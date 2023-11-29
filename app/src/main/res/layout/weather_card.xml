@@ -52,7 +52,6 @@
             </com.google.android.flexbox.FlexboxLayout>
 
             <!-- Temperature Icon -->
-            <!-- Make sure to correct the contentDescription -->
             <ImageView
                 android:id="@+id/imageView_temperature_icon"
                 android:layout_width="wrap_content"
@@ -71,7 +70,6 @@
                 android:textSize="25sp" />
 
             <!-- Weather Icon -->
-            <!-- Make sure to correct the contentDescription -->
             <ImageView
                 android:id="@+id/imageView_weather_icon"
                 android:layout_width="wrap_content"
@@ -89,7 +87,7 @@
             app:flexDirection="row"
             app:justifyContent="space_around">
 
-            <!-- Sunrise Column -->
+            <!-- High Temperature Column -->
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,20 +95,46 @@
                 app:flexDirection="column">
 
                 <TextView
-                    android:id="@+id/textView_sunriseLabel"
+                    android:id="@+id/textView_highTempLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Sunrise"
+                    android:text="High Temp"
                     android:textColor="@color/White_Out"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/textView_sunriseTime"
+                    android:id="@+id/textView_highTempValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="6:00 AM"
+                    android:text="27°C"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <!-- Low Temperature Column -->
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:alignItems="center"
+                app:flexDirection="column">
+
+                <TextView
+                    android:id="@+id/textView_lowTempLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Low Temp"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_lowTempValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="19°C"
                     android:textColor="@color/White_Out"
                     android:textSize="15sp" />
             </com.google.android.flexbox.FlexboxLayout>
@@ -132,37 +156,11 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/textView_precipitationInches"
+                    android:id="@+id/textView_precipitationValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="0.006 in"
-                    android:textColor="@color/White_Out"
-                    android:textSize="15sp" />
-            </com.google.android.flexbox.FlexboxLayout>
-
-            <!-- Sunset Column -->
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:alignItems="center"
-                app:flexDirection="column">
-
-                <TextView
-                    android:id="@+id/textView_sunsetLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Sunset"
-                    android:textColor="@color/White_Out"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/textView_sunsetTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="7:15 PM"
+                    android:text="0.02 in"
                     android:textColor="@color/White_Out"
                     android:textSize="15sp" />
             </com.google.android.flexbox.FlexboxLayout>

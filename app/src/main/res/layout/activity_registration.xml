@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    tools:context=".activities.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="65dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/login_title_text"
             android:textAlignment="center"
@@ -35,9 +36,10 @@
                 android:id="@+id/reg_usermame_textinput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:fontFamily="@font/roboto_medium"
                 android:hint="@string/username_hint_text"
                 android:textSize="15sp" />
@@ -52,9 +54,10 @@
                 android:id="@+id/reg_password_textinput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:fontFamily="@font/roboto_medium"
                 android:hint="@string/password_hint_text"
                 android:textSize="15sp" />
@@ -69,51 +72,91 @@
                 android:id="@+id/reg_retype_pass_textinput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:fontFamily="@font/roboto_medium"
                 android:hint="@string/retype_password_text"
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Switch
-            android:id="@+id/student_facutly_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:splitTrack="false"
-            android:text="@string/student_facutly_switch_text"
-            android:textColor="@color/White_Out"
-            android:textSize="15sp"
-            android:thumbTint="@color/White_Out"
-            android:trackTint="@color/Pugh_Blue"
-            android:trackTintMode="screen" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!--Text will change based on switch value-->
+            <TextView
+                android:id="@+id/faculty_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:textSize="20sp"
+                android:text="@string/faculty"
+                android:textColor="@color/White_Out"
+                android:layout_gravity="center_vertical" />
+
+            <!--Custom switch added below-->
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/student_faculty_switch"
+                android:layout_width="wrap_content"
+                style="@style/CustomSwitchStyle"
+                android:layout_height="wrap_content"
+                android:thumb="@drawable/thumb_selector"
+                android:track="@drawable/track_selector"
+                android:textColor="@color/White_Out"
+                android:layout_gravity="center_vertical" />
+
+            <!--Text will change based on switch value-->
+            <TextView
+                android:id="@+id/student_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:textSize="20sp"
+                android:text="@string/student"
+                android:textColor="@color/White_Out"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/reg_register_button"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:shadowRadius="10"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowColor="@color/Black"
+            android:layout_marginTop="10dp"
             android:text="@string/register_button_text" />
 
         <TextView
             android:id="@+id/existing_user_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/existing_user_text"
             android:textAlignment="center"
             android:textColor="@color/White_Out"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/reg_login_button"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:shadowRadius="10"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowColor="@color/Black"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:text="@string/login_button_text" />

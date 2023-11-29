@@ -19,7 +19,8 @@
     <string name="register_button_text">Register</string>
     <string name="register_title_text">New User?</string>
     <string name="existing_user_text">Existing User?</string>
-    <string name="switch_student_text">Student</string>
-    <string name="switch_faulty_text">Faculty</string>
-    <string name="student_facutly_switch_text">Student/Faculty</string>
+    <string name="faculty">Faculty</string>
+    <string name="student">Student</string>
+    <string name="enter">Enter</string>
+    <string name="logout">Logout</string>
 </resources>

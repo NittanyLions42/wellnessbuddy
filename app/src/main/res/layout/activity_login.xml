@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
   <LinearLayout
       android:layout_width="match_parent"
@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:fontFamily="@font/roboto_regular"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/login_title_text"
         android:textAlignment="center"
         android:textColor="@color/White_Out"
@@ -37,9 +38,10 @@
           android:id="@+id/login_username_edittext"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="20dp"
-          android:layout_marginTop="50dp"
-          android:layout_marginRight="20dp"
+          android:layout_marginTop="20dp"
+          android:layout_marginBottom="20dp"
+          android:layout_marginLeft="70dp"
+          android:layout_marginRight="70dp"
           android:hint="@string/username_hint_text"
           android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -48,7 +50,10 @@
         android:id="@+id/password_textinputlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp">
 
       <com.google.android.material.textfield.TextInputEditText
           android:id="@+id/login_password_edittext"
@@ -65,21 +70,25 @@
         android:layout_height="47dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
+        android:shadowRadius="10"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowColor="@color/Black"
         android:padding="0dp"
         android:text="@string/login_button_text"
         android:textColor="@color/White_Out"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:strokeWidth="0dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/register_title_text"
         android:textAlignment="center"
         android:textColor="@color/White_Out"
-        android:textSize="12dp" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/register_button"
@@ -87,10 +96,14 @@
         android:layout_height="47dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
+        android:shadowRadius="10"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowColor="@color/Black"
         android:padding="0dp"
         android:text="@string/register_button_text"
         android:textColor="@color/White_Out"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
   </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

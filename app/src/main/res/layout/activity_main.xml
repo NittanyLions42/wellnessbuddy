@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <LinearLayout
         android:id="@+id/top_level_linearLayout"
@@ -18,21 +18,22 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/recommend_act_area_titie_textView"
+            android:id="@+id/recommend_act_area_title_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="40dp"
             android:text="@string/recommended_activity_area_title"
             android:textAlignment="center"
             android:textColor="@color/White_Out"
-            android:textSize="20sp" />
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/activity_short_desc_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:fontFamily="@font/roboto_thinitalic"
+            android:fontFamily="@font/roboto_italic"
             android:text="@string/recommended_activity_short_desc_text"
             android:textAlignment="center"
             android:textColor="@color/Brenda_Gray"
@@ -47,34 +48,39 @@
                 android:id="@+id/recommend_activity_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/lay_in_grass"
                 tools:srcCompat="@drawable/lay_in_grass"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                android:contentDescription="@drawable/lay_in_grass" />
 
-            <EditText
+            <TextView
                 android:id="@+id/editTextTextMultiLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="start|top"
-                android:inputType="textMultiLine"
                 android:text="@string/recommended_activity_long_desc_text"
                 android:textColor="@color/White_Out"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <Button
             android:id="@+id/generate_rand_act_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:shadowRadius="10"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowColor="@color/Black"
             android:layout_marginTop="25dp"
             android:text="@string/recommended_activity_button_text"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/forecast_card_title_textview"
@@ -86,7 +92,7 @@
             android:text="@string/weather_card_title"
             android:textAlignment="center"
             android:textColor="@color/White_Out"
-            android:textSize="20sp" />
+            android:textSize="22sp" />
 
         <LinearLayout
             android:id="@+id/zipcode_linearlayout_h"
@@ -104,22 +110,30 @@
                 android:layout_margin="5dp"
                 android:autoText="false"
                 android:background="@color/White_Out"
+                android:fontFamily="@font/roboto_italic"
                 android:ems="10"
                 android:hint="@string/zipcode_hint_text"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textAlignment="center"
                 android:textColor="@color/Brenda_Gray"
-                android:textSize="12dp" />
+                android:textSize="15sp"
+                tools:ignore="Deprecated"
+                android:autofillHints="33021"/>
 
             <Button
                 android:id="@+id/zipcode_enter_button"
-                android:layout_width="102dp"
+                android:layout_width="85dp"
                 android:layout_height="35dp"
                 android:layout_margin="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:shadowRadius="10"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowColor="@color/Black"
                 android:padding="0dp"
-                android:text="Enter"
-                android:textSize="12dp" />
+                android:text="@string/enter"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -142,6 +156,53 @@
             app:tabIndicator="@android:color/transparent"
             app:tabGravity="center" />
     </LinearLayout>
+
+    <!--Custom toolbar added. Added at the bottom to have it layered on top-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/Beaver_Blue"
+        app:title=""
+        app:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/toolbarLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/app_logo_transparent"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@drawable/app_logo_transparent" />
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="95dp"
+                android:layout_height="30dp"
+                android:textSize="12sp"
+                android:shadowRadius="10"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowColor="@color/Black"
+                android:padding="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="15dp"
+                android:text="@string/logout"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
