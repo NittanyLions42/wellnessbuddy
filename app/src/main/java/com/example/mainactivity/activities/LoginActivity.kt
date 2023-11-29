@@ -24,7 +24,8 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
 
             // creating an intent to start the MainActivity KF 11/22/2023
-            val intent = Intent(this, MainActivity::class.java)
+            // Changed to display new activity FacultyActivity BG 11/28/2023
+            val intent = Intent(this, FacultyActivity::class.java)
 
             // starting the MainActivity KF 11/22/2023
             startActivity(intent)

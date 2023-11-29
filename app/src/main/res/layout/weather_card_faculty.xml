@@ -1,0 +1,260 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_marginLeft="45dp"
+    android:layout_marginRight="45dp"
+    android:layout_marginTop="15dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
+
+    <!-- Main FlexboxLayout for vertical arrangement -->
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_weather_background"
+        android:padding="20dp"
+        app:flexDirection="column"
+        app:justifyContent="space_between">
+
+        <!-- Top row with horizontal arrangement -->
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alignItems="center"
+            app:flexDirection="row"
+            app:justifyContent="space_between">
+
+            <!-- City Name and Date in a column -->
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:alignItems="flex_start"
+                app:flexDirection="column">
+
+                <TextView
+                    android:id="@+id/city_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/miami_fl"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/date_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_italic"
+                    android:text="@string/dec_23_tue"
+                    android:textColor="@color/White_Out"
+                    android:textSize="13sp" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <!-- Temperature Icon -->
+            <ImageView
+                android:id="@+id/temperature_icon_faculty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@drawable/therm_icon_transparent"
+                android:src="@drawable/therm_icon_transparent" />
+
+            <!-- Weather Text -->
+            <TextView
+                android:id="@+id/weather_value_faculty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/_21_c"
+                android:textColor="@color/White_Out"
+                android:textSize="25sp" />
+
+            <!-- Weather Icon -->
+            <ImageView
+                android:id="@+id/weather_icon_faculty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@drawable/weather_icon"
+                android:src="@drawable/weather_icon" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <!-- Middle row with horizontal arrangement using LinearLayout for alignment -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- High Temperature Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <!-- High Temp Label and Value TextViews -->
+                <TextView
+                    android:id="@+id/highTempLabel_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/high_temp"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/highTempValue_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/_27_c"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Low Temperature Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <!-- Low Temp Label and Value TextViews -->
+                <TextView
+                    android:id="@+id/lowTempLabel_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/low_temp"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/lowTempValue_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/_19_c"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Precipitation Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <!-- Precipitation Label and Value TextViews -->
+                <TextView
+                    android:id="@+id/precipitationLabel_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/precipitation"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/precipitationValue_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/_0_02_in"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Bottom row with horizontal arrangement using LinearLayout for alignment -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- Max UV Index Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <!-- Max UV Index Label and Value TextViews -->
+                <TextView
+                    android:id="@+id/max_uv_index_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/max_uv_index"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/max_uv_index_value_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/_1_low"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Wind Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <!-- Wind Label and Value TextViews -->
+                <TextView
+                    android:id="@+id/wind_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/wind"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/wind_value_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/_2_mph"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Air Quality Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <!-- Air Quality Label and Value TextViews -->
+                <TextView
+                    android:id="@+id/air_quality_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/air_quality"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/air_quality_value_faculty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/_4_6"
+                    android:textColor="@color/White_Out"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+</androidx.cardview.widget.CardView>
