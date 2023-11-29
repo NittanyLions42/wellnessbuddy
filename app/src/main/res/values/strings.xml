@@ -23,4 +23,19 @@
     <string name="student">Student</string>
     <string name="enter">Enter</string>
     <string name="logout">Logout</string>
+    <string name="max_uv_index">Max UV Index</string>
+    <string name="_1_low">1 low</string>
+    <string name="wind">Wind</string>
+    <string name="air_quality">Air Quality</string>
+    <string name="_2_mph">2 mph</string>
+    <string name="miami_fl">Miami, FL</string>
+    <string name="dec_23_tue">Dec 23, Tue</string>
+    <string name="_21_c">21°C</string>
+    <string name="high_temp">High Temp</string>
+    <string name="_27_c">27°C</string>
+    <string name="_19_c">19°C</string>
+    <string name="low_temp">Low Temp</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="_0_02_in">0.02 in</string>
+    <string name="_4_6">4.6</string>
 </resources>
