@@ -1,8 +1,9 @@
-package com.example.mainactivity
+package com.example.mainactivity.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.databinding.WeatherCardBinding
 
 class WeatherAdapter(private val dataset: List<WeatherItem>) :
@@ -23,9 +24,9 @@ class WeatherAdapter(private val dataset: List<WeatherItem>) :
             imageViewTemperatureIcon.setImageResource(item.temperatureIcon)
             textViewWeather.text = item.weatherDescription
             imageViewWeatherIcon.setImageResource(item.weatherIcon)
-            textViewSunriseTime.text = item.sunrise
-            textViewPrecipitationInches.text = item.percipitation
-            textViewSunsetTime.text = item.sunset
+            textViewHighTempValue.text = item.highTemp
+            textViewLowTempValue.text = item.lowTemp
+            textViewPrecipitationValue.text = item.percipitation
         }
     }
 

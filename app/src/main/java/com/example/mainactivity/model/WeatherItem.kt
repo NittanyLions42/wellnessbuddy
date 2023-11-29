@@ -1,4 +1,4 @@
-package com.example.mainactivity
+package com.example.mainactivity.model
 
 data class WeatherItem(
     val city: String,
@@ -6,7 +6,7 @@ data class WeatherItem(
     val temperatureIcon: Int,
     val weatherDescription: String,
     val weatherIcon: Int,
-    val sunrise: String,
-    val percipitation: String,
-    val sunset: String
+    val highTemp: String,
+    val lowTemp: String,
+    val percipitation: String
 )
