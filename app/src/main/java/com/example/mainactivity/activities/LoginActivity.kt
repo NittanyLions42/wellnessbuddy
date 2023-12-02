@@ -3,7 +3,10 @@ package com.example.mainactivity.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.mainactivity.R
+import com.example.mainactivity.R.*
 import com.example.mainactivity.databinding.ActivityLoginBinding
+import com.google.android.material.textfield.TextInputEditText
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,8 +30,19 @@ class LoginActivity : AppCompatActivity() {
             // Changed to display new activity FacultyActivity BG 11/28/2023
             val intent = Intent(this, FacultyActivity::class.java)
 
+            val usernameEditText = findViewById<TextInputEditText>(R.id.login_username_edittext)
+
+            val username = usernameEditText.text.toString()
+
+            var dbMan = dbManager()
+
+            if(dbMan.tryLogin())
+            {
+                startActivity(intent)
+            }
+        // Now you can use 'username' as a String
+
             // starting the MainActivity KF 11/22/2023
-            startActivity(intent)
         }
 
         // setting the onClickListener for the register button KF 11/22/2023
