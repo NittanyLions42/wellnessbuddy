@@ -54,12 +54,13 @@
                 android:id="@+id/reg_password_textinput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="70dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="70dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/roboto_medium"
                 android:hint="@string/password_hint_text"
+                android:password="true"
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,11 +73,12 @@
                 android:id="@+id/reg_retype_pass_textinput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="70dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="70dp"
                 android:fontFamily="@font/roboto_medium"
                 android:hint="@string/retype_password_text"
+                android:password="true"
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
