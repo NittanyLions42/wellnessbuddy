@@ -1,0 +1,57 @@
+{
+	"name": "Json_activity",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Json_activity",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "activities_data.json",
+				"container": "jsonblob2"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Outdoor": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"Title": {
+								"type": "string"
+							},
+							"Img": {
+								"type": "string"
+							},
+							"Description": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"Indoor": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"Title": {
+								"type": "string"
+							},
+							"Img": {
+								"type": "string"
+							},
+							"Description": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

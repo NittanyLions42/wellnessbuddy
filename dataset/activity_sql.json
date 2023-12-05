@@ -1,0 +1,41 @@
+{
+	"name": "activity_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "activity_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Outdoor_Title",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Outdoor_Img",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Outdoor_Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Indoor_Title",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Indoor_Img",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Indoor_Description",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "activities_data"
+		}
+	}
+}

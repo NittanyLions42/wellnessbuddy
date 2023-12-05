@@ -1,0 +1,121 @@
+{
+	"name": "wellnessactivitydataload",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyJson activity to SQL",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "activities_data.json",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"Outdoor_Title",
+								"Indoor_Title"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['Outdoor'][0]['Title']"
+								},
+								"sink": {
+									"name": "Outdoor_Title",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Outdoor'][0]['Img']"
+								},
+								"sink": {
+									"name": "Outdoor_Img",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Outdoor'][0]['Description']"
+								},
+								"sink": {
+									"name": "Outdoor_Description",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Indoor'][0]['Title']"
+								},
+								"sink": {
+									"name": "Indoor_Title",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Indoor'][0]['Img']"
+								},
+								"sink": {
+									"name": "Indoor_Img",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Indoor'][0]['Description']"
+								},
+								"sink": {
+									"name": "Indoor_Description",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Json_activity",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "activity_sql",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
