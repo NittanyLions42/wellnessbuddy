@@ -1,0 +1,9 @@
+{
+	"name": "WellnessBuddy-ADF",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "608274a6-eb82-4567-af80-ddb5553019d6",
+		"tenantId": "7cf48d45-3ddb-4389-a9c1-c115526eb52e"
+	}
+}
