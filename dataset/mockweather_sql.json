@@ -1,5 +1,5 @@
 {
-	"name": "weather_sql",
+	"name": "mockweather_sql",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",

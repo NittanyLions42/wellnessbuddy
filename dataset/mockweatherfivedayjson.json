@@ -1,5 +1,5 @@
 {
-	"name": "weatherfivedayjson",
+	"name": "mockweatherfivedayjson",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "fivedayforecastblob",
