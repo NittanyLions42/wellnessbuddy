@@ -1,0 +1,25 @@
+{
+	"name": "wellnessactivity_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "wellnessactivitydataload",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/jsonblob2/blobs/activities_data",
+			"blobPathEndsWith": ".json",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/d31df7d0-6bf8-4f87-820d-bc23ce475507/resourceGroups/WellnessBuddy/providers/Microsoft.Storage/storageAccounts/jsonweather2",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
