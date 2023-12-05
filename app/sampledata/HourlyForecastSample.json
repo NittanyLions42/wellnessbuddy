@@ -1,0 +1,216 @@
+[
+  {
+    "DateTime": "2023-12-05T11:00:00-08:00",
+    "EpochDateTime": 1701802800,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Light",
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 52,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 80,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=11&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=11&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T12:00:00-08:00",
+    "EpochDateTime": 1701806400,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 52,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 82,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=12&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=12&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T13:00:00-08:00",
+    "EpochDateTime": 1701810000,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 51,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 84,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=13&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=13&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T14:00:00-08:00",
+    "EpochDateTime": 1701813600,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 51,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 84,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=14&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=14&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T15:00:00-08:00",
+    "EpochDateTime": 1701817200,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 51,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 84,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=15&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=15&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T16:00:00-08:00",
+    "EpochDateTime": 1701820800,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 50,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 84,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=16&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=16&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T17:00:00-08:00",
+    "EpochDateTime": 1701824400,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 49,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 84,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=17&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=17&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T18:00:00-08:00",
+    "EpochDateTime": 1701828000,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Moderate",
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 49,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 84,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=18&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=18&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T19:00:00-08:00",
+    "EpochDateTime": 1701831600,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Light",
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 49,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 66,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=19&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=19&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T20:00:00-08:00",
+    "EpochDateTime": 1701835200,
+    "WeatherIcon": 7,
+    "IconPhrase": "Cloudy",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 48,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 49,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=20&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=20&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T21:00:00-08:00",
+    "EpochDateTime": 1701838800,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Light",
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 48,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 66,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=21&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=21&lang=en-us"
+  },
+  {
+    "DateTime": "2023-12-05T22:00:00-08:00",
+    "EpochDateTime": 1701842400,
+    "WeatherIcon": 18,
+    "IconPhrase": "Rain",
+    "HasPrecipitation": true,
+    "PrecipitationType": "Rain",
+    "PrecipitationIntensity": "Light",
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 48,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 66,
+    "MobileLink": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=22&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/bellevue-wa/98004/hourly-weather-forecast/331424?day=1&hbhhour=22&lang=en-us"
+  }
+]

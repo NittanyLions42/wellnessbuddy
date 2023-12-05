@@ -1,7 +1,7 @@
 package mainactivity
 
 import com.example.mainactivity.model.network.ForecastResponse
-import com.example.mainactivity.model.network.WeatherService
+import com.example.mainactivity.api.WeatherService
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

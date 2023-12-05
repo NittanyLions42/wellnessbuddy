@@ -1,10 +1,12 @@
 package com.example.mainactivity.repository
 
+import RequestTracker
 import com.example.mainactivity.exception.BadRequestException
 import com.example.mainactivity.exception.InternalErrorException
 import com.example.mainactivity.exception.NotFoundException
 import com.example.mainactivity.model.network.*
-import com.example.mainactivity.network.network.LocationResponse
+import com.example.mainactivity.model.network.LocationResponse
+import com.example.mainactivity.api.WeatherService
 import com.example.mainactivity.utils.Logger
 
 /**
@@ -13,71 +15,85 @@ import com.example.mainactivity.utils.Logger
  *
  * @param weatherService The Retrofit service interface for making API requests.
  * @param logger The logger for logging errors and messages.
+ * @param requestTracker The tracker for managing API call limits.
  */
-class WeatherRepository(private val weatherService: WeatherService, private val logger: Logger) {
+class WeatherRepository(
+    private val weatherService: WeatherService,
+    private val logger: Logger,
+    private val requestTracker: RequestTracker
+) {
 
     private val apiKey = "API_KEY"
 
     /**
-     * Retrieve the location key for a given postal code.
+     * Retrieves the location key for a given postal code while adhering to API call limits.
      *
      * @param postalCode The postal code for which to retrieve the location key.
      * @return The [LocationResponse] containing location information.
-     * @throws BadRequestException if the request is malformed or the postal code is invalid.
-     * @throws NotFoundException if the requested resource is not found.
-     * @throws InternalErrorException if there is an internal server error.
-     * @throws Exception for unknown errors.
+     * @throws Exception if the API call limit is reached or if no response body is found.
      */
     suspend fun getLocationKey(postalCode: String): LocationResponse {
-        // TODO: This function will be changed based on API call limit set for UI
-        val response = weatherService.getLocationsKey(apiKey, postalCode, "en-us", false)
-        if (response.isSuccessful) {
-            return response.body() ?: throw Exception("No body in response")
+        if (requestTracker.canCallLocationKey()) {
+            val response = weatherService.getLocationsKey(apiKey, postalCode, "en-us", false)
+            if (response.isSuccessful) {
+                requestTracker.updateLocationKeyCall()
+                return response.body() ?: throw Exception("No body in response")
+            } else {
+                handleErrors(response.code())
+            }
         } else {
-            handleErrors(response.code())
+            throw Exception("API call limit reached for getFiveDayForecast")
         }
     }
 
     /**
-     * Retrieve a five-day weather forecast for a given location key.
+     * Retrieves a five-day weather forecast for a given location key, respecting API call limits.
      *
      * @param locationKey The location key for which to retrieve the weather forecast.
      * @return The [ForecastResponse] containing the five-day weather forecast.
-     * @throws BadRequestException if the request is malformed or the location key is invalid.
-     * @throws NotFoundException if the requested resource is not found.
-     * @throws InternalErrorException if there is an internal server error.
-     * @throws Exception for unknown errors.
+     * @throws Exception if the API call limit is reached or if no response body is found.
      */
     suspend fun getFiveDayForecast(locationKey: String): ForecastResponse {
-        // TODO: This function will be changed based on API call limit set for UI
-        val response = weatherService.getFiveDayForecast(locationKey, apiKey, "en-us", true, false)
-        if (response.isSuccessful) {
-            return response.body() ?: throw Exception("No body in response")
+        if (requestTracker.canCallFiveDayForecast()) {
+            val response = weatherService.getFiveDayForecast(locationKey, apiKey, "en-us", true, false)
+            if (response.isSuccessful) {
+                requestTracker.updateFiveDayForecastCall()
+                return response.body() ?: throw Exception("No body in response")
+            } else {
+                handleErrors(response.code())
+            }
         } else {
-            handleErrors(response.code())
+            throw Exception("API call limit reached for getFiveDayForecast")
         }
     }
 
     /**
-     * Retrieve a twelve-hour weather forecast for a given location key.
+     * Retrieves a twelve-hour weather forecast for a given location key, following API call limits.
      *
      * @param locationKey The location key for which to retrieve the weather forecast.
      * @return A list of [HourlyForecastResponse] containing the twelve-hour weather forecast.
-     * @throws BadRequestException if the request is malformed or the location key is invalid.
-     * @throws NotFoundException if the requested resource is not found.
-     * @throws InternalErrorException if there is an internal server error.
-     * @throws Exception for unknown errors.
+     * @throws Exception if the API call limit is reached or if no response body is found.
      */
     suspend fun getTwelveHourForecast(locationKey: String): List<HourlyForecastResponse> {
-        // TODO: This function will be changed based on API call limit set for UI
-        val response = weatherService.getTwelveHourForecast(locationKey, apiKey, "en-us", false)
-        if (response.isSuccessful) {
-            return response.body() ?: throw Exception("No body in response")
+        if (requestTracker.canCallTwelveHourForecast()) {
+            val response = weatherService.getTwelveHourForecast(locationKey, apiKey, "en-us", false)
+            if (response.isSuccessful) {
+                requestTracker.updateTwelveHourForecastCall()
+                return response.body() ?: throw Exception("No body in response")
+            } else {
+                handleErrors(response.code())
+            }
         } else {
-            handleErrors(response.code())
+            throw Exception("API call limit reached for getTwelveHourForecast")
         }
     }
 
+    /**
+     * Handles various error scenarios based on the HTTP response code.
+     *
+     * @param code The HTTP response code from the API call.
+     * @throws Exception describing the type of error based on the response code.
+     */
     private fun handleErrors(code: Int): Nothing {
         when (code) {
             400 -> throw BadRequestException(400, "Invalid parameter or bad request.")
@@ -90,4 +106,3 @@ class WeatherRepository(private val weatherService: WeatherService, private val 
         }
     }
 }
-
