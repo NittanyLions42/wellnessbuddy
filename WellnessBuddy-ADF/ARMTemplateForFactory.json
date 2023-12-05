@@ -1,0 +1,290 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "WellnessBuddy-ADF"
+		},
+		"Json_activity_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Json_activity'"
+		},
+		"activity_sql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'activity_sql'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/wellnessactivitydataload')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyJson activity to SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "activities_data.json",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"Outdoor_Title",
+										"Indoor_Title"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['Outdoor'][0]['Title']"
+										},
+										"sink": {
+											"name": "Outdoor_Title",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Outdoor'][0]['Img']"
+										},
+										"sink": {
+											"name": "Outdoor_Img",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Outdoor'][0]['Description']"
+										},
+										"sink": {
+											"name": "Outdoor_Description",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Indoor'][0]['Title']"
+										},
+										"sink": {
+											"name": "Indoor_Title",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Indoor'][0]['Img']"
+										},
+										"sink": {
+											"name": "Indoor_Img",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Indoor'][0]['Description']"
+										},
+										"sink": {
+											"name": "Indoor_Description",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json_activity",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "activity_sql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Json_activity')]",
+				"[concat(variables('factoryId'), '/datasets/activity_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json_activity')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Json_activity",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "activities_data.json",
+						"container": "jsonblob2"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Outdoor": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"Title": {
+										"type": "string"
+									},
+									"Img": {
+										"type": "string"
+									},
+									"Description": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"Indoor": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"Title": {
+										"type": "string"
+									},
+									"Img": {
+										"type": "string"
+									},
+									"Description": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Json_activity')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/activity_sql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "activity_sql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Outdoor_Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Outdoor_Img",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Outdoor_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Indoor_Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Indoor_Img",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Indoor_Description",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "activities_data"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/activity_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json_activity')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('Json_activity_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/activity_sql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('activity_sql_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
