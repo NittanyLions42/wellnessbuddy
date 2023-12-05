@@ -1,0 +1,138 @@
+{
+	"name": "weatherfivedayjson",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "fivedayforecastblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "mockFiveDayForecast.json",
+				"container": "jsonblob"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"DailyForecasts": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"Date": {
+								"type": "string"
+							},
+							"Temperature": {
+								"type": "object",
+								"properties": {
+									"Minimum": {
+										"type": "object",
+										"properties": {
+											"Value": {
+												"type": "integer"
+											},
+											"Unit": {
+												"type": "string"
+											}
+										}
+									},
+									"Maximum": {
+										"type": "object",
+										"properties": {
+											"Value": {
+												"type": "integer"
+											},
+											"Unit": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							},
+							"AirAndPollen": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"Name": {
+											"type": "string"
+										},
+										"Value": {
+											"type": "integer"
+										},
+										"Category": {
+											"type": "string"
+										}
+									}
+								}
+							},
+							"Day": {
+								"type": "object",
+								"properties": {
+									"IconPhrase": {
+										"type": "string"
+									},
+									"HasPrecipitation": {
+										"type": "boolean"
+									},
+									"PrecipitationProbability": {
+										"type": "integer"
+									},
+									"Wind": {
+										"type": "object",
+										"properties": {
+											"Speed": {
+												"type": "object",
+												"properties": {
+													"Value": {
+														"type": "number"
+													},
+													"Unit": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							},
+							"Night": {
+								"type": "object",
+								"properties": {
+									"IconPhrase": {
+										"type": "string"
+									},
+									"HasPrecipitation": {
+										"type": "boolean"
+									},
+									"PrecipitationProbability": {
+										"type": "integer"
+									},
+									"Wind": {
+										"type": "object",
+										"properties": {
+											"Speed": {
+												"type": "object",
+												"properties": {
+													"Value": {
+														"type": "number"
+													},
+													"Unit": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
