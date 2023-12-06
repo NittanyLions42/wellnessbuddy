@@ -1,5 +1,6 @@
 package com.example.mainactivity.activities
 
+import android.content.Intent
 import android.os.Bundle
 import com.example.mainactivity.R
 import androidx.appcompat.app.AppCompatActivity
@@ -70,5 +71,10 @@ class FacultyActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.logoutButtonFaculty.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
