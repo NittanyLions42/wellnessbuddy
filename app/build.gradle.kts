@@ -87,7 +87,9 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation(files("build/libs/jtds-1.3.1.jar"))
-
+    implementation("androidx.compose.foundation:foundation-android:1.5.4")
+    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.activity:activity-compose:1.8.1")
     // Mock Web Server
     testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
 
