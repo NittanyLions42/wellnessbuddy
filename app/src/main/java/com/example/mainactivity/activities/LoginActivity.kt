@@ -3,7 +3,6 @@ package com.example.mainactivity.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.mainactivity.R
 import com.example.mainactivity.R.*
 import com.example.mainactivity.databinding.ActivityLoginBinding
 import com.google.android.material.textfield.TextInputEditText
@@ -28,17 +27,28 @@ class LoginActivity : AppCompatActivity() {
 
             // creating an intent to start the MainActivity KF 11/22/2023
             // Changed to display new activity FacultyActivity BG 11/28/2023
-            val intent = Intent(this, FacultyActivity::class.java)
+            val intentFacultyActivity = Intent(this, FacultyActivity::class.java)
 
-            val usernameEditText = findViewById<TextInputEditText>(R.id.login_username_edittext)
+            val intentMainActivity = Intent(this, MainActivity::class.java)
+
+            val usernameEditText = findViewById<TextInputEditText>(id.login_username_edittext)
 
             val username = usernameEditText.text.toString()
 
-            var dbMan = dbManager()
+            val passcodeEditText = findViewById<TextInputEditText>(id.login_password_edittext)
 
-            if(dbMan.tryLogin())
+            val passcode = passcodeEditText.text.toString()
+
+            val dbMan = dbManager()
+
+            val credential = Credential(username, passcode)
+
+            if(dbMan.tryLogin(credential))
             {
-                startActivity(intent)
+                if(credential.isFaculty)
+                    startActivity(intentFacultyActivity)
+                else
+                    startActivity(intentMainActivity)
             }
         // Now you can use 'username' as a String
 

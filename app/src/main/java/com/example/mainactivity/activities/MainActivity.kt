@@ -1,5 +1,6 @@
 package com.example.mainactivity.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -61,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         val tabLayout = binding.tabDots
         for (i in weatherItems.indices) {
             tabLayout.addTab(tabLayout.newTab())
+        }
+
+        binding.logoutButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
         // Add an OnScrollListener to the RecyclerView to update the selected tab

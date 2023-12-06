@@ -1,5 +1,6 @@
 package com.example.mainactivity.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -7,6 +8,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import com.example.mainactivity.R
 import com.example.mainactivity.databinding.ActivityRegistrationBinding
+import com.google.android.material.textfield.TextInputEditText
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -35,6 +37,30 @@ class RegistrationActivity : AppCompatActivity() {
         // Handle the switch state changes
         switchCompat.setOnCheckedChangeListener { _, isChecked ->
             updateLabelColors(facultyLabel, studentLabel, isChecked)
+        }
+
+        binding.regLoginButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.regRegisterButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            val dbMan = dbManager()
+            var editText = findViewById<TextInputEditText>(R.id.reg_usermame_textinput)
+            val username = editText.text.toString()
+            editText = findViewById(R.id.reg_password_textinput)
+            val passcode = editText.text.toString()
+            editText = findViewById(R.id.reg_retype_pass_textinput)
+            val rePasscode = editText.text.toString()
+
+            if(passcode == rePasscode)
+            {
+                if(dbMan.registerUser(username, passcode, !switchCompat.isChecked))
+                {
+                    startActivity(intent)
+                }
+            }
         }
     }
 
