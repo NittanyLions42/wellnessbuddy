@@ -1,0 +1,229 @@
+{
+	"name": "weatherdataload",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy json weather to SQL",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "mockFiveDayForecast.json",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"DailyForecasts_Date"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Date']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Date",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Temperature']['Minimum']['Value']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Temperature_Minimum_Value",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Temperature']['Minimum']['Unit']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Temperature_Minimum_Unit",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Temperature']['Maximum']['Value']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Temperature_Maximum_Value",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Temperature']['Maximum']['Unit']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Temperature_Maximum_Unit",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['AirAndPollen'][0]['Name']"
+								},
+								"sink": {
+									"name": "DailyForecasts_AirAndPollen_Name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['AirAndPollen'][0]['Value']"
+								},
+								"sink": {
+									"name": "DailyForecasts_AirAndPollen_Value",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['AirAndPollen'][0]['Category']"
+								},
+								"sink": {
+									"name": "DailyForecasts_AirAndPollen_Category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Day']['IconPhrase']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Day_IconPhrase",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Day']['HasPrecipitation']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Day_HasPrecipitation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Day']['PrecipitationProbability']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Day_PrecipitationProbability",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Day']['Wind']['Speed']['Value']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Day_Wind_Speed_Value",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Day']['Wind']['Speed']['Unit']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Day_Wind_Speed_Unit",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Night']['IconPhrase']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Night_IconPhrase",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Night']['HasPrecipitation']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Night_HasPrecipitation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Night']['PrecipitationProbability']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Night_PrecipitationProbability",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Night']['Wind']['Speed']['Value']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Night_Wind_Speed_Value",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['DailyForecasts'][0]['Night']['Wind']['Speed']['Unit']"
+								},
+								"sink": {
+									"name": "DailyForecasts_Night_Wind_Speed_Unit",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "mockweatherfivedayjson",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "mockweathersql",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

@@ -1,0 +1,100 @@
+{
+	"name": "mockweathersql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DailyForecasts_Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DailyForecasts_Temperature_Minimum_Value",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DailyForecasts_Temperature_Minimum_Unit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Temperature_Maximum_Value",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DailyForecasts_Temperature_Maximum_Unit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_AirAndPollen_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_AirAndPollen_Value",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DailyForecasts_AirAndPollen_Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Day_IconPhrase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Day_HasPrecipitation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Day_PrecipitationProbability",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DailyForecasts_Day_Wind_Speed_Value",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 1
+			},
+			{
+				"name": "DailyForecasts_Day_Wind_Speed_Unit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Night_IconPhrase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Night_HasPrecipitation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DailyForecasts_Night_PrecipitationProbability",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DailyForecasts_Night_Wind_Speed_Value",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 1
+			},
+			{
+				"name": "DailyForecasts_Night_Wind_Speed_Unit",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "mockFiveDayForecast"
+		}
+	}
+}
