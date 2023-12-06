@@ -11,9 +11,9 @@ import com.example.mainactivity.model.network.Temperature
 import com.example.mainactivity.model.network.TemperatureInfo
 import com.example.mainactivity.model.network.TemperatureValue
 import com.example.mainactivity.model.network.Wind
-import com.example.mainactivity.network.network.AdministrativeArea
-import com.example.mainactivity.network.network.LocationResponse
-import com.example.mainactivity.network.network.ParentCity
+import com.example.mainactivity.model.network.AdministrativeArea
+import com.example.mainactivity.model.network.LocationResponse
+import com.example.mainactivity.model.network.ParentCity
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -1,6 +1,8 @@
-package com.example.mainactivity.model.network
+package com.example.mainactivity.api
 
-import com.example.mainactivity.network.network.LocationResponse
+import com.example.mainactivity.model.network.ForecastResponse
+import com.example.mainactivity.model.network.HourlyForecastResponse
+import com.example.mainactivity.model.network.LocationResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
