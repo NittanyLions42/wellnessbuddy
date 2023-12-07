@@ -2,13 +2,14 @@ package com.example.mainactivity.activities
 
 //Dialog libraries
 
+
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mainactivity.R
 import com.example.mainactivity.databinding.ActivityLoginBinding
 import com.google.android.material.textfield.TextInputEditText
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -16,71 +17,6 @@ class LoginActivity : AppCompatActivity() {
     // Added binding variable KF 11/22/2023
     private  lateinit var binding: ActivityLoginBinding
 
-    /*@Composable
-    fun AlertDialogExample(
-        onDismissRequest: () -> Unit,
-        onConfirmation: () -> Unit,
-        dialogTitle: String,
-        dialogText: String,
-        icon: ImageVector,
-    ) {
-        AlertDialog(
-            icon = {
-                Icon(icon, contentDescription = "Example Icon")
-            },
-            title = {
-                Text(text = dialogTitle)
-            },
-            text = {
-                Text(text = dialogText)
-            },
-            onDismissRequest = {
-                onDismissRequest()
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onConfirmation()
-                    }
-                ) {
-                    Text("Confirm")
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        onDismissRequest()
-                    }
-                ) {
-                    Text("Dismiss")
-                }
-            }
-        )
-    }
-
-    @Composable
-    fun DialogExamples() {
-        // ...
-
-        val openAlertDialog = remember { mutableStateOf(false) }
-
-        // ...
-        when {
-            // ...
-            openAlertDialog.value -> {
-                AlertDialogExample(
-                    onDismissRequest = { openAlertDialog.value = false },
-                    onConfirmation = {
-                        openAlertDialog.value = false
-                        println("Confirmation registered") // Add logic here to handle confirmation.
-                    },
-                    dialogTitle = "Alert dialog example",
-                    dialogText = "This is an example of an alert dialog with buttons.",
-                    icon = Icons.Default.Info
-                )
-            }
-        }
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -125,6 +61,8 @@ class LoginActivity : AppCompatActivity() {
                 else
                     startActivity(intentMainActivity)
             }
+            else
+                showLoginError()
             // Now you can use 'username' as a String
 
             // starting the MainActivity KF 11/22/2023
@@ -144,5 +82,19 @@ class LoginActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_login)
 
 
+    }
+
+    private fun showLoginError() {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Login Error")
+        builder.setMessage("Your username and/or password is incorrect.")
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

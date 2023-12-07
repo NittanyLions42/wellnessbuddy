@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.StrictMode;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -108,5 +110,35 @@ public class dbManager {
         }
 
         return connection;
+    }
+
+    public boolean checkUserID(@NotNull String desiredUsername) {
+        boolean usernameExists = false;
+
+        // Using try-with-resources to automatically close resources
+        try (Connection con = connectionclass()) {
+            // The SQL query to check if the username exists
+            String sqlQuery = "SELECT COUNT(*) AS userCount FROM credentials WHERE userID = ?";
+
+            try (PreparedStatement preparedStatement = con.prepareStatement(sqlQuery)) {
+                // Set the parameter in the prepared statement
+                preparedStatement.setString(1, desiredUsername);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Retrieve the count from the result set
+                        int userCount = resultSet.getInt("userCount");
+
+                        // If the count is greater than 0, the username exists
+                        usernameExists = userCount > 0;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+        }
+
+        return usernameExists;
     }
 }
