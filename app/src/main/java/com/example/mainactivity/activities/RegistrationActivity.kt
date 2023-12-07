@@ -1,9 +1,10 @@
 package com.example.mainactivity.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import com.example.mainactivity.R
@@ -56,11 +57,18 @@ class RegistrationActivity : AppCompatActivity() {
 
             if(passcode == rePasscode)
             {
-                if(dbMan.registerUser(username, passcode, !switchCompat.isChecked))
+                if(!dbMan.checkUserID(username))
                 {
-                    startActivity(intent)
+                    if(dbMan.registerUser(username, passcode, !switchCompat.isChecked))
+                    {
+                        startActivity(intent)
+                    }
                 }
+                else
+                    showRegError("That username is already in use.")
             }
+            else
+                showRegError("Your passwords don't match")
         }
     }
 
@@ -73,5 +81,19 @@ class RegistrationActivity : AppCompatActivity() {
             facultyLabel.setTextColor(ContextCompat.getColor(this, R.color.PA_Creek)) // Active color
             studentLabel.setTextColor(ContextCompat.getColor(this, R.color.White_Out)) // Inactive color
         }
+    }
+
+    private fun showRegError(msg: String) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Registration Error")
+        builder.setMessage(msg)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }
