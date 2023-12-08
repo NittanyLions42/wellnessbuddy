@@ -3,16 +3,15 @@ package com.example.mainactivity.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
+import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.adapters.WeatherAdapter
 import com.example.mainactivity.databinding.ActivityMainBinding
-import com.example.mainactivity.model.WeatherItem
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -66,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.logoutButton.setOnClickListener {
-            showLogoutMsg()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
         // Add an OnScrollListener to the RecyclerView to update the selected tab
@@ -82,20 +82,5 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun showLogoutMsg() {
-        val builder = AlertDialog.Builder(this)
-
-        builder.setTitle("Logout")
-        builder.setMessage("You have successfully logged out.")
-
-        builder.setPositiveButton("OK") { dialog, _ ->
-            val intent = Intent(this, LoginActivity::class.java)
-            dialog.dismiss()
-            startActivity(intent)
-        }
-
-        val dialog = builder.create()
-        dialog.show()
-    }
 }
 
