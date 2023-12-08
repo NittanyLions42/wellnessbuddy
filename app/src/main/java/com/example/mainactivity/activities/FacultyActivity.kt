@@ -2,11 +2,12 @@ package com.example.mainactivity.activities
 
 import android.content.Intent
 import android.os.Bundle
-import com.example.mainactivity.R
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherFacultyAdapter
 import com.example.mainactivity.databinding.ActivityFacultyBinding
 import com.example.mainactivity.model.WeatherFacultyItem
@@ -73,8 +74,23 @@ class FacultyActivity : AppCompatActivity() {
         })
 
         binding.logoutButtonFaculty.setOnClickListener {
+            showLogoutMsg()
+        }
+    }
+
+    private fun showLogoutMsg() {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Logout")
+        builder.setMessage("You have successfully logged out.")
+
+        builder.setPositiveButton("OK") { dialog, _ ->
             val intent = Intent(this, LoginActivity::class.java)
+            dialog.dismiss()
             startActivity(intent)
         }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }
