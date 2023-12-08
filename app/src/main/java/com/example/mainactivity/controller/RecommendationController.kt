@@ -22,27 +22,10 @@ class RecommendationController(private val view: MainActivity) {
         mutableListOf()
 
     init {
-        //recommendationsMap = HashMap()
+
         loadRecommendationFromJson()
     }
 
-    // may not need this parsing function
-//    @Throws(JSONException::class)
-//    fun parseRecommendations(jsonArray: JSONArray): List<Recommendation> {
-//        val recommendations: MutableList<Recommendation> = ArrayList()
-//        for (i in 0 until jsonArray.length()) {
-//            val recommendationJson = jsonArray.getJSONObject(i)
-//            val recommendation =
-//                Recommendation(
-//                    title = recommendationJson.getString("Title"),
-//                    img = recommendationJson.getString("Img"),
-//                    description = recommendationJson.getString("Description")
-//
-//                )
-//            recommendations.add(recommendation)
-//        }
-//        return recommendations
-//    }
 
     //query database for values for outdoor or indoor activities
     @Throws(IOException::class)
@@ -98,17 +81,9 @@ class RecommendationController(private val view: MainActivity) {
     ): Recommendation? {
         val random = Random()
         val ageRange = random.nextInt(101)
-
-        getRandomRecommendation(recommendationsMap, isOutdoor = true)
-        getRandomRecommendation(recommendationsMap, isOutdoor = false)
-
-
         val makeRecommendations = recommendationsMap
 
-            .find {
-
-                ageRange in it.first && (isOutdoor && it.first.first >= 55 || !isOutdoor && it.first.first <= 54)
-            }
+            .find { ageRange in it.first && (isOutdoor && it.first.first >= 55 || !isOutdoor && it.first.first <= 54) }
             ?.second
 
         return makeRecommendations?.let {
@@ -127,10 +102,12 @@ class RecommendationController(private val view: MainActivity) {
 
             val randomRecommendation: Recommendation? = recommendationsMap
                 .firstOrNull { it.first.contains(temperatureValue) }
-                ?.let { getRandomRecommendation(it.second, true) } // no idea how to fix this
+                ?.let { getRandomRecommendation(listOf(it), temperatureValue >= 55) }
 
-            view.displayRecommendation(randomRecommendation)
+            view.displayRecommendation(randomRecommendation) // create member function in Main? Why..
         }
+
+
 }
 
 // need to check with weather data for variable name use
@@ -165,3 +142,20 @@ class RecommendationController(private val view: MainActivity) {
 //    }
 
 
+// may not need this parsing function
+//    @Throws(JSONException::class)
+//    fun parseRecommendations(jsonArray: JSONArray): List<Recommendation> {
+//        val recommendations: MutableList<Recommendation> = ArrayList()
+//        for (i in 0 until jsonArray.length()) {
+//            val recommendationJson = jsonArray.getJSONObject(i)
+//            val recommendation =
+//                Recommendation(
+//                    title = recommendationJson.getString("Title"),
+//                    img = recommendationJson.getString("Img"),
+//                    description = recommendationJson.getString("Description")
+//
+//                )
+//            recommendations.add(recommendation)
+//        }
+//        return recommendations
+//    }

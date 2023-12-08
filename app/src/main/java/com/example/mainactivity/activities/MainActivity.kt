@@ -3,6 +3,7 @@ package com.example.mainactivity.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,10 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
 import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.adapters.WeatherAdapter
+import com.example.mainactivity.controller.Recommendation
 import com.example.mainactivity.databinding.ActivityMainBinding
+
+import com.example.mainactivity.controller.RecommendationController
+import com.example.mainactivity.model.network.Temperature
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var recommendationController: RecommendationController
+    private lateinit var recommendationTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +71,18 @@ class MainActivity : AppCompatActivity() {
             tabLayout.addTab(tabLayout.newTab())
         }
 
+        //calling RecommendationController to display random activity from button click
+        binding.generateRandActButton.setOnClickListener {
+            recommendationController = RecommendationController(this)
+            //set temperature value for testing purpose
+            val temperature = Temperature(75.0, "F")
+
+            // Display the recommendation
+            recommendationController.displayRecommendation(temperature)
+
+        }
+
+
         binding.logoutButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -81,6 +100,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    fun displayRecommendation(randomRecommendation: Recommendation?) {
+        if(randomRecommendation != null) {
+            recommendationTextView.text = "Recommended Activity: ${randomRecommendation.title}"
+        } else {
+            recommendationTextView.text = "No available recommendations"
+
+        }
+
+    }
+
 
 }
 
