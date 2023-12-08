@@ -1,5 +1,6 @@
 package com.example.mainactivity.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -19,6 +20,9 @@ import com.example.mainactivity.controller.Recommendation
 import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
 
+import com.example.mainactivity.activities.Credential
+import com.example.mainactivity.activities.dbManager
+
 import com.example.mainactivity.controller.RecommendationController
 import com.example.mainactivity.model.network.Temperature
 
@@ -36,10 +40,22 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
+
+
         // Add logic for the toolbar logout button here:
-        val logoutButton: Button = findViewById(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            // Handle the logout logic here
+//        val logoutButton: Button = findViewById(R.id.logoutButton)
+//        logoutButton.setOnClickListener {
+//            // Handle the logout logic here
+//
+//        }
+
+        recommendationController = RecommendationController(this)
+        recommendationController.loadRecommendationFromJson()
+
+
+        binding.generateRandActButton.setOnClickListener {
+            val temperature = Temperature(75, "F")
+            recommendationController.displayRecommendation(temperature)
         }
 
         // Remove the title text from the action bar
@@ -75,21 +91,12 @@ class MainActivity : AppCompatActivity() {
             tabLayout.addTab(tabLayout.newTab())
         }
 
-        //calling RecommendationController to display random activity from button click
-        binding.generateRandActButton.setOnClickListener {
-            recommendationController = RecommendationController(this)
-            //set temperature value for testing purpose
-            val temperature = Temperature(75.0, "F")
-
-            // Display the recommendation
-            recommendationController.displayRecommendation(temperature)
-
-        }
 
 
         binding.logoutButton.setOnClickListener {
             showLogoutMsg()
         }
+
 
         // Add an OnScrollListener to the RecyclerView to update the selected tab
         binding.horizontalCardRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -105,15 +112,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun displayRecommendation(randomRecommendation: Recommendation?) {
-        if(randomRecommendation != null) {
-            recommendationTextView.text = "Recommended Activity: ${randomRecommendation.title}" //only for title, description not yet added
-        } else {
-            recommendationTextView.text = "No available recommendations"
 
-        }
+fun displayRecommendation(randomRecommendation: Recommendation?) {
+    if(randomRecommendation != null) {
+      val  recommendationTextView: TextView = findViewById(R.id.activity_short_desc_textView) //only for title, description not yet added
+
+        recommendationTextView.text = "${randomRecommendation.title}"
 
     }
+
+}
 
 
     private fun showLogoutMsg() {

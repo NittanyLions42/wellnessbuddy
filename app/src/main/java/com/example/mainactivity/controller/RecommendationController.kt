@@ -1,6 +1,7 @@
 package com.example.mainactivity.controller
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.example.mainactivity.activities.MainActivity
 import org.json.JSONArray
 import org.json.JSONException
@@ -21,15 +22,12 @@ class RecommendationController(private val view: MainActivity) {
     private val recommendationsMap: MutableList<Pair<IntRange, List<Recommendation>>> =
         mutableListOf()
 
-    init {
 
-        loadRecommendationFromJson()
-    }
 
 
     //query database for values for outdoor or indoor activities
     @Throws(IOException::class)
-    private fun loadRecommendationFromJson() {
+    fun loadRecommendationFromJson() {
         try {
             // Load JDBC driver
             Class.forName("net.sourceforge.jtds.jdbc.Driver")
@@ -49,20 +47,28 @@ class RecommendationController(private val view: MainActivity) {
                 val outdoordescription = resultSet.getString("Outdoor_Description")
 
                 // Parse the information and add to recommendationsMap
-                val outdoorRecommendation = Recommendation(outdoortitle, outdoorimg, outdoordescription)
-                recommendationsMap.add(
-                    IntRange(55, 100) to listOf(outdoorRecommendation)
-                )
+                if(outdoortitle != null && outdoorimg != null && outdoordescription != null) {
+                    val outdoorRecommendation =
+                        Recommendation(outdoortitle, outdoorimg, outdoordescription)
+                    recommendationsMap.add(
+                        IntRange(55, 100) to listOf(outdoorRecommendation)
+                    )
+                }
+                Log.d("RecommendationController", "Outdoor Title: $outdoortitle, Outdoor Img: $outdoorimg, Outdoor Description: $outdoordescription")
 
                 val indoorTitle = resultSet.getString("Indoor_Title")
                 val indoorImg = resultSet.getString("Indoor_Img")
                 val indoorDescription = resultSet.getString("Indoor_Description")
 
-                // Parse the information and add to recommendationsMap
-                val indoorRecommendation = Recommendation(indoorTitle, indoorImg, indoorDescription)
-                recommendationsMap.add(
-                    IntRange(0, 54) to listOf(indoorRecommendation)
-                )
+                 //Parse the information and add to recommendationsMap
+                if(indoorTitle != null && indoorImg != null && indoorDescription != null) {
+                    val indoorRecommendation =
+                        Recommendation(indoorTitle, indoorImg, indoorDescription)
+                    recommendationsMap.add(
+                        IntRange(0, 54) to listOf(indoorRecommendation)
+                    )
+                }
+                Log.d("RecommendationController", "Indoor Title: $indoorTitle, Indoor Img: $indoorImg, Indoor Description: $indoorDescription")
             }
 
             // Close database
@@ -105,7 +111,7 @@ class RecommendationController(private val view: MainActivity) {
                 .firstOrNull { it.first.contains(temperatureValue) }
                 ?.let { getRandomRecommendation(listOf(it), temperatureValue >= 55) }
 
-            view.displayRecommendation(randomRecommendation) // create member function in Main? Why..
+            view.displayRecommendation(randomRecommendation)
         }
 
 
