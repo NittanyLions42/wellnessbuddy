@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     fun displayRecommendation(randomRecommendation: Recommendation?) {
         if(randomRecommendation != null) {
-            recommendationTextView.text = "Recommended Activity: ${randomRecommendation.title}"
+            recommendationTextView.text = "Recommended Activity: ${randomRecommendation.title}" //only for title, description not yet added
         } else {
             recommendationTextView.text = "No available recommendations"
 

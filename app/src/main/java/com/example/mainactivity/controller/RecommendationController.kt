@@ -75,6 +75,7 @@ class RecommendationController(private val view: MainActivity) {
         }
     }
 
+    //get random activity recommendation
     private fun getRandomRecommendation(
         recommendationsMap: List<Pair<IntRange, List<Recommendation>>>,
         isOutdoor: Boolean
