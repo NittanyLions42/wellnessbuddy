@@ -1,7 +1,19 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
 }
+
+val localProperties = Properties()
+val localPropertiesFile: File = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: "NoApiKeyFound"
 
 android {
     namespace = "com.example.mainactivity"
@@ -13,6 +25,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "API_KEY", "\"$mapsApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -20,6 +33,7 @@ android {
     // Build Features used for view bindings KF 11/17/2023
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -30,10 +44,8 @@ android {
                 "proguard-rules.pro"
             )
         }
-        buildTypes {
-            getByName("debug") {
-                isDebuggable = true
-            }
+        debug {
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -76,8 +88,6 @@ dependencies {
     // Flexbox dependencies for alginItems & justifyContent: added by BG
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
-
-
     // Materiel dependencies for the dot indication: added by BG
     implementation("com.google.android.material:material:1.10.0")
 
@@ -86,7 +96,10 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation(files("build/libs/jtds-1.3.1.jar"))
+
+    // Replacing (files("build/libs/jtds-1.3.1.jar")) to this
+    implementation("net.sourceforge.jtds:jtds:1.3.1")
+
     implementation("androidx.compose.foundation:foundation-android:1.5.4")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.activity:activity-compose:1.8.1")

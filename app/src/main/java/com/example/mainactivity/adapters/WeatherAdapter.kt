@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.databinding.WeatherCardBinding
 
-class WeatherAdapter(private val dataset: List<WeatherItem>) :
+class WeatherAdapter(private var dataset: List<WeatherItem>) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
     class WeatherViewHolder(val binding: WeatherCardBinding) : RecyclerView.ViewHolder(binding.root)
@@ -22,13 +22,19 @@ class WeatherAdapter(private val dataset: List<WeatherItem>) :
             textViewCity.text = item.city
             textViewDate.text = item.date
             imageViewTemperatureIcon.setImageResource(item.temperatureIcon)
-            textViewWeather.text = item.weatherDescription
+            textViewWeather.text = item.temperature
             imageViewWeatherIcon.setImageResource(item.weatherIcon)
             textViewHighTempValue.text = item.highTemp
             textViewLowTempValue.text = item.lowTemp
-            textViewPrecipitationValue.text = item.percipitation
+            textViewPrecipitationValue.text = item.precipitation
         }
     }
 
     override fun getItemCount() = dataset.size
+
+    fun updateData(newDataset: List<WeatherItem>) {
+        dataset = newDataset
+        notifyDataSetChanged()
+    }
+
 }

@@ -34,10 +34,10 @@ data class AdministrativeArea(
  * Used in the context of a location response.
  *
  * @property locationKey A unique key identifying the parent city.
- * @property cityName The localized name of the parent city.
+ * @property city The localized name of the parent city.
  */
 @JsonClass(generateAdapter = true)
 data class ParentCity(
     @Json(name = "Key") val locationKey: String,
-    @Json(name = "LocalizedName") val cityName: String
+    @Json(name = "LocalizedName") val city: String
 )

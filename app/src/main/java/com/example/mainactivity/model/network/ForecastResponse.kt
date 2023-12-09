@@ -101,7 +101,7 @@ data class NightForecast(
  * @property speed Details of wind speed.
  */
 @JsonClass(generateAdapter = true)
-data class Wind(
+data class WindFLow(
     @Json(name = "Speed") val speed: Speed
 )
 
