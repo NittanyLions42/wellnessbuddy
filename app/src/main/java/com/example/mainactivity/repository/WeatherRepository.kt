@@ -2,9 +2,11 @@ package com.example.mainactivity.repository
 
 import com.example.mainactivity.api.WeatherService
 import com.example.mainactivity.model.network.FiveDayForecast
+import com.example.mainactivity.utils.Logger
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
 
 class WeatherRepository(private val weatherService: WeatherService) {
 
@@ -15,27 +17,32 @@ class WeatherRepository(private val weatherService: WeatherService) {
 
     fun getWeatherForecast(
         zipCode: String,
-        countryCode: String,
         apiKey: String,
         units: String = "imperial",
         callback: WeatherCallback
     ) {
-        val call = weatherService.getWeatherForecast(zipCode, countryCode, apiKey, units)
+        Logger.d("WeatherRepository", "Fetching weather forecast for zipCode:$zipCode")
+        val call = weatherService.getWeatherForecast(zipCode, apiKey, units)
         call.enqueue(object : Callback<FiveDayForecast> {
             override fun onResponse(
                 call: Call<FiveDayForecast>,
                 response: Response<FiveDayForecast>
             ) {
                 if (response.isSuccessful) {
+                    Logger.d("WeatherRepository", "Weather data retrieved successfully")
                     val weatherData = response.body()
                     callback.onSuccess(weatherData)
                 } else {
-                    callback.onError("Error fetching weather data")
+                    val errorMessage = "Error fetching weather data: ${response.code()}"
+                    Logger.e("WeatherRepository", errorMessage)
+                    callback.onError(errorMessage)
                 }
             }
 
             override fun onFailure(call: Call<FiveDayForecast>, t: Throwable) {
-                callback.onError(t.message ?: "Network request failed")
+                val errorMessage = "Network request failed: ${t.message ?: "Unknown error"}"
+                Logger.e("WeatherRepository", errorMessage, t)
+                callback.onError(errorMessage)
             }
         })
     }

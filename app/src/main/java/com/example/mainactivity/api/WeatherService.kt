@@ -13,7 +13,6 @@ interface WeatherService {
     @GET("data/2.5/forecast")
     fun getWeatherForecast(
         @Query("zip") zipCode: String,
-        @Query("country") countryCode: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String = "imperial"
     ): Call<FiveDayForecast>
