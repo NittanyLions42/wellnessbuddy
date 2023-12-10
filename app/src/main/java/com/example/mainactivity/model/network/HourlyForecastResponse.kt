@@ -17,6 +17,6 @@ data class HourlyForecastResponse(
  */
 @JsonClass(generateAdapter = true)
 data class Temperature(
-    @Json(name = "Value") val value: Double,
+    @Json(name = "Value") val value: Int,
     @Json(name = "Unit") val unit: String
 )

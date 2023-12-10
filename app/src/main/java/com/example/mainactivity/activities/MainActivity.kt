@@ -1,9 +1,15 @@
 package com.example.mainactivity.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
+
+import android.widget.TextView
+
 import androidx.appcompat.app.AlertDialog
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,11 +17,24 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
+import com.example.mainactivity.controller.Recommendation
 import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
 
+import com.example.mainactivity.activities.Credential
+import com.example.mainactivity.activities.dbManager
+
+import com.example.mainactivity.controller.RecommendationController
+import com.example.mainactivity.model.network.Temperature
+
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var recommendationController: RecommendationController
+    private lateinit var recommendationTextView: TextView
+    private lateinit var recommendationImageView: ImageView
+    private lateinit var recommendationdesTextView: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +45,22 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
+
+
         // Add logic for the toolbar logout button here:
-        val logoutButton: Button = findViewById(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            // Handle the logout logic here
+//        val logoutButton: Button = findViewById(R.id.logoutButton)
+//        logoutButton.setOnClickListener {
+//            // Handle the logout logic here
+//
+//        }
+
+        recommendationController = RecommendationController(this)
+        recommendationController.loadRecommendationFromJson()
+
+
+        binding.generateRandActButton.setOnClickListener {
+            val temperature = Temperature(75, "F")
+            recommendationController.displayRecommendation(temperature)
         }
 
         // Remove the title text from the action bar
@@ -65,9 +96,12 @@ class MainActivity : AppCompatActivity() {
             tabLayout.addTab(tabLayout.newTab())
         }
 
+
+
         binding.logoutButton.setOnClickListener {
             showLogoutMsg()
         }
+
 
         // Add an OnScrollListener to the RecyclerView to update the selected tab
         binding.horizontalCardRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -81,6 +115,32 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+
+
+fun displayRecommendation(randomRecommendation: Recommendation?) {
+    if(randomRecommendation != null) {
+      val  recommendationTextView: TextView = findViewById(R.id.activity_short_desc_textView) //only for title, description not yet added
+      val recommendationImageView: ImageView = findViewById((R.id.recommend_activity_imageView))   // for image view
+      val recommendationdesTextView: TextView = findViewById(R.id.editTextTextMultiLine)
+
+
+        recommendationTextView.text = "${randomRecommendation.title}"
+        val bitmap = recommendationController.decodeBase64Image(randomRecommendation.base64img)
+        if (bitmap != null) {
+            recommendationImageView.setImageBitmap(bitmap)
+        } else {
+
+            recommendationImageView.setImageResource(R.drawable.lay_in_grass)
+        }
+
+        recommendationdesTextView.text = "${randomRecommendation.description}"
+
+
+    }
+
+}
+
 
     private fun showLogoutMsg() {
         val builder = AlertDialog.Builder(this)
@@ -97,5 +157,6 @@ class MainActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
     }
+
 }
 
