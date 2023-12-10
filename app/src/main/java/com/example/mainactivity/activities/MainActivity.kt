@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 
 import android.widget.TextView
 
@@ -26,10 +27,14 @@ import com.example.mainactivity.activities.dbManager
 import com.example.mainactivity.controller.RecommendationController
 import com.example.mainactivity.model.network.Temperature
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var recommendationController: RecommendationController
     private lateinit var recommendationTextView: TextView
+    private lateinit var recommendationImageView: ImageView
+    private lateinit var recommendationdesTextView: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,8 +121,21 @@ class MainActivity : AppCompatActivity() {
 fun displayRecommendation(randomRecommendation: Recommendation?) {
     if(randomRecommendation != null) {
       val  recommendationTextView: TextView = findViewById(R.id.activity_short_desc_textView) //only for title, description not yet added
+      val recommendationImageView: ImageView = findViewById((R.id.recommend_activity_imageView))   // for image view
+      val recommendationdesTextView: TextView = findViewById(R.id.editTextTextMultiLine)
+
 
         recommendationTextView.text = "${randomRecommendation.title}"
+        val bitmap = recommendationController.decodeBase64Image(randomRecommendation.base64img)
+        if (bitmap != null) {
+            recommendationImageView.setImageBitmap(bitmap)
+        } else {
+
+            recommendationImageView.setImageResource(R.drawable.lay_in_grass)
+        }
+
+        recommendationdesTextView.text = "${randomRecommendation.description}"
+
 
     }
 

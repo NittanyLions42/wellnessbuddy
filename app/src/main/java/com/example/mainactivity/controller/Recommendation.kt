@@ -5,6 +5,6 @@ package com.example.mainactivity.controller
  */
 class Recommendation(
     val title: String, //changed to public for displaying
-    private val img: String,
-    private val description: String
+    val base64img: String,
+    val description: String
 )

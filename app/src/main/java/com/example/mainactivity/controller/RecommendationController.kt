@@ -13,6 +13,10 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import java.io.ByteArrayInputStream
 
 class RecommendationController(private val view: MainActivity) {
 
@@ -78,6 +82,19 @@ class RecommendationController(private val view: MainActivity) {
 
         } catch (e: Exception) {
             throw RuntimeException(e)
+        }
+    }
+
+    fun decodeBase64Image(base64img: String): Bitmap? {
+        return try {
+            val imageBytes = Base64.decode(base64img, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+            null
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
         }
     }
 
