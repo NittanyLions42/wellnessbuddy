@@ -19,7 +19,8 @@ data class WeatherData(
     val weather: List<WeatherCondition>,
     val wind: Wind,
     val pop: Double,
-    val clouds: Clouds
+    val clouds: Clouds,
+    @Json(name = "dt_txt") val dtTxt: String
 )
 
 @JsonClass(generateAdapter = true)
