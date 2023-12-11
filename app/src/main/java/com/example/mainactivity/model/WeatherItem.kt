@@ -1,5 +1,7 @@
 package com.example.mainactivity.model
 
+import java.util.Date
+
 data class WeatherItem(
     val city: String,
     val date: String,

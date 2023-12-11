@@ -2,7 +2,6 @@ package com.example.mainactivity.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -40,88 +39,108 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set custom toolbar as the support action bar
+        setupToolbar()
+        setupListeners()
+        initializeWeatherData()
+        setupListeners()
+        initializeWeatherController()
+
+        }
+
+    private fun setupToolbar() {
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-
-        // Add logic for the toolbar logout button here:
-        val logoutButton: Button = findViewById(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            //
-        }
-
-        // Remove the title text from the action bar
         supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
 
-        val currentDate = LocalDate.now()
-        val currentDateFormatted = currentDate.format(DateTimeFormatter.ofPattern("MMM d, E"))
-        val weatherItems = getDefaultWeatherData(currentDateFormatted)
+    private fun setupListeners() {
+        setupZipcodeListener()
+        setupLogoutListener()
+    }
 
+    private fun setupZipcodeListener() {
         binding.zipcodeEnterButton.setOnClickListener {
-            val zipcodeEditText: EditText =
-                findViewById<TextInputEditText>(R.id.zipcode_editTextNumber)
-            val enteredPostalCode = zipcodeEditText.text.toString()
-            val apiKey = BuildConfig.API_KEY
-            weatherController.fetchWeatherForecast(
-                enteredPostalCode,
-                apiKey,
-                "imperial"
-            )
+            handleZipcodeEntry()
         }
+    }
 
-        weatherAdapter = WeatherAdapter(weatherItems)
-        // Set up the RecyclerView with a horizontal LinearLayoutManager and an adapter
-        binding.horizontalCardRecyclerview.apply {
-            layoutManager =
-                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = WeatherAdapter(weatherItems)
+    private fun handleZipcodeEntry() {
+        val zipcodeEditText: EditText = findViewById<TextInputEditText>(R.id.zipcode_editTextNumber)
+        val enteredPostalCode = zipcodeEditText.text.toString()
+        weatherController.fetchWeatherForecast(enteredPostalCode, BuildConfig.API_KEY, "imperial")
+    }
 
-            // Attach the PagerSnapHelper to enable snapping behavior
-            val snapHelper = PagerSnapHelper()
-            snapHelper.attachToRecyclerView(this)
+
+    private fun setupLogoutListener() {
+        binding.logoutButton.setOnClickListener {
+            showLogoutMsg()
         }
+    }
 
-
-        // Initialize the TabLayout and add a tab for each item in the RecyclerView
+    private fun setupTabLayout(itemCount: Int) {
         val tabLayout = binding.tabDots
-        for (i in weatherItems.indices) {
+        tabLayout.removeAllTabs()
+        for (i in 0 until itemCount) {
             tabLayout.addTab(tabLayout.newTab())
         }
+    }
 
-        binding.horizontalCardRecyclerview.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val position = layoutManager.findFirstCompletelyVisibleItemPosition()
-                if (position != RecyclerView.NO_POSITION) {
-                    tabLayout.selectTab(tabLayout.getTabAt(position))
-                }
-            }
-        })
-
+    private fun initializeWeatherController() {
         retrofit = RetrofitInstance.retrofit
         weatherService = retrofit.create(WeatherService::class.java)
-
         val weatherRepository = WeatherRepository(weatherService)
-        weatherController =
-            WeatherController(weatherRepository, object : WeatherController.WeatherCallback {
-                override fun onSuccess(weatherData: List<WeatherItem>) {
-                    runOnUiThread {
-                        weatherAdapter.updateData(weatherData)
-                    }
-                }
+        weatherController = WeatherController(weatherRepository, createWeatherCallback())
+    }
 
-                override fun onError(error: String) {
-                    runOnUiThread {
-                        showErrorDialog(error)
-                    }
-                }
-            })
-
-        binding.logoutButton.setOnClickListener {
-                showLogoutMsg()
+    private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
+        override fun onSuccess(weatherData: List<WeatherItem>) {
+            runOnUiThread {
+                weatherAdapter.updateData(weatherData)
+                setupTabLayout(weatherData.size)
+                updateTabLayout(weatherData.size)
             }
+        }
+
+        override fun onError(error: String) {
+            runOnUiThread { showErrorDialog(error) }
+        }
+    }
+
+    private fun initializeWeatherData() {
+        val currentDateFormatted = LocalDate.now().format(DateTimeFormatter.ofPattern("MMM d, E"))
+        val weatherItems = getDefaultWeatherData(currentDateFormatted)
+        setupRecyclerView(weatherItems)
+        setupTabLayout(weatherItems.size)
+    }
+
+    private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val position = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (position != RecyclerView.NO_POSITION) {
+                binding.tabDots.selectTab(binding.tabDots.getTabAt(position))
+            }
+        }
+    }
+
+    private fun updateTabLayout(size: Int) {
+        val tabLayout = binding.tabDots
+        tabLayout.removeAllTabs()
+        for (i in 0 until size) {
+            tabLayout.addTab(tabLayout.newTab())
+        }
+    }
+
+    private fun setupRecyclerView(weatherItems: List<WeatherItem>) {
+        weatherAdapter = WeatherAdapter(weatherItems)
+        binding.horizontalCardRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = weatherAdapter
+            PagerSnapHelper().attachToRecyclerView(this)
+        }
+        binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
+        updateTabLayout(weatherItems.size)
     }
 
     private fun getDefaultWeatherData(currentDateFormatted: String): List<WeatherItem> {
