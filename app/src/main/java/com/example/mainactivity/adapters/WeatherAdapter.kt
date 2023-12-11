@@ -31,19 +31,13 @@ class WeatherAdapter(private var dataset: List<WeatherItem>) :
         }
     }
 
-    override fun getItemCount() = dataset.size
+    override fun getItemCount(): Int {
+        return dataset.size
+    }
 
     fun updateData(newDataset: List<WeatherItem>) {
         Logger.d("WeatherAdapter", "Updating data with ${newDataset.size} items")
 
-        /*
-         Since the api only gives temperature update every 3 hours,
-         Preserve the existing temperature values in the new dataset.
-         */
-        newDataset.forEachIndexed { index, newItem ->
-            val existingItem = dataset.getOrNull(index)
-            newItem.temperature = existingItem?.temperature ?: newItem.temperature
-        }
         dataset = newDataset
         notifyDataSetChanged()
     }
