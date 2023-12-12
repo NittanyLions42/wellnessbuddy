@@ -17,60 +17,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/forecast_faculty_card_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/roboto_italic"
-        android:text="@string/weather_card_title"
-        android:textAlignment="center"
-        android:textColor="@color/White_Out"
-        android:textSize="22sp" />
-
-    <LinearLayout
-        android:id="@+id/zipcode_faculty_linearlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:foregroundGravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/zipcode_faculty"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:autoText="false"
-            android:background="@color/White_Out"
+        <TextView
+            android:id="@+id/forecast_faculty_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_italic"
-            android:ems="10"
-            android:hint="@string/zipcode_hint_text"
-            android:inputType="number"
-            android:padding="5dp"
+            android:text="@string/weather_card_title"
             android:textAlignment="center"
-            android:textColor="@color/Brenda_Gray"
-            android:textSize="15sp"
-            tools:ignore="Deprecated"
-            android:autofillHints="33021"/>
+            android:textColor="@color/White_Out"
+            android:textSize="22sp" />
 
-        <Button
-            android:id="@+id/zipcode_faculty_enter_button"
-            android:layout_width="85dp"
-            android:layout_height="35dp"
-            android:layout_margin="5dp"
-            android:fontFamily="@font/roboto_bold"
-            android:shadowRadius="10"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowColor="@color/Black"
-            android:padding="0dp"
-            android:text="@string/enter"
-            android:textSize="12sp" />
+        <LinearLayout
+            android:id="@+id/zipcode_faculty_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/zipcode_faculty"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:autoText="false"
+                android:background="@color/White_Out"
+                android:fontFamily="@font/roboto_italic"
+                android:ems="10"
+                android:hint="@string/zipcode_hint_text"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/Brenda_Gray"
+                android:textSize="15sp"
+                tools:ignore="Deprecated"
+                android:autofillHints="33021"/>
+
+            <Button
+                android:id="@+id/zipcode_faculty_enter_button"
+                android:layout_width="85dp"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:shadowRadius="10"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowColor="@color/Black"
+                android:padding="0dp"
+                android:text="@string/enter"
+                android:textSize="12sp" />
+
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/horizontal_faculty_card_recyclerview"
             android:layout_width="match_parent"

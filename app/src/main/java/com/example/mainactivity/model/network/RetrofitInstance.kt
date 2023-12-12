@@ -12,7 +12,7 @@ object RetrofitInstance {
             .build()
 
         Retrofit.Builder()
-            .baseUrl("http://dataservice.accuweather.com/")
+            .baseUrl("https://api.openweathermap.org/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
