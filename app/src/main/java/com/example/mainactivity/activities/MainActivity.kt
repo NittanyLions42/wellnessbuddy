@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import com.example.mainactivity.BuildConfig
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weatherAdapter: WeatherAdapter
     private lateinit var weatherService: WeatherService
     private lateinit var dataConverter : WeatherDataConverter
+    private lateinit var snapHelper: SnapHelper
     private lateinit var retrofit: Retrofit
+    private val defaultZipCode = "16802"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +48,21 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
         setupListeners()
         initializeWeatherController()
+
+        snapHelper = PagerSnapHelper()
+
+        // Fetch weather data for the default zip code
+        loadDefaultWeatherData()
     }
 
     private fun setupToolbar() {
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    private fun loadDefaultWeatherData() {
+        weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
     }
 
     private fun setupListeners() {
@@ -129,6 +141,8 @@ class MainActivity : AppCompatActivity() {
         binding.horizontalCardRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = weatherAdapter
+
+            snapHelper.attachToRecyclerView(this)
             PagerSnapHelper().attachToRecyclerView(this)
         }
         binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
