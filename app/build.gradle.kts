@@ -13,7 +13,7 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 
-val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: "NoApiKeyFound"
+val mapsApiKey = localProperties.getProperty("MAPS_API_KEY")?.removeSurrounding("\"") ?: "NoApiKeyFound"
 
 android {
     namespace = "com.example.mainactivity"
