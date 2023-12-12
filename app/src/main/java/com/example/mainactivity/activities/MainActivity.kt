@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import com.example.mainactivity.BuildConfig
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
@@ -21,11 +22,6 @@ import com.example.mainactivity.repository.WeatherRepository
 import com.example.mainactivity.utils.WeatherDataConverter
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Retrofit
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -35,16 +31,30 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataConverter : WeatherDataConverter
     private lateinit var retrofit: Retrofit
 
+    private lateinit var snapHelper: SnapHelper
+
+    private val defaultZipCode = "16802"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataConverter = WeatherDataConverter
-
         setupToolbar()
         setupListeners()
         initializeWeatherController()
+
+        dataConverter = WeatherDataConverter
+
+        snapHelper = PagerSnapHelper()
+
+        // Fetch weather data for the default zip code
+        loadDefaultWeatherData()
+    }
+
+    private fun loadDefaultWeatherData() {
+        weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
     }
 
     private fun setupToolbar() {
@@ -95,12 +105,10 @@ class MainActivity : AppCompatActivity() {
     private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
         override fun onSuccess(weatherData: List<WeatherItem>) {
             runOnUiThread {
-
+                // Process and round temperatures here
                 val processedData = dataConverter.processAndRoundTemperatures(weatherData)
 
                 val dailyData = dataConverter.aggregateWeatherDataByDay(processedData)
-                //weatherAdapter.updateData(dailyData)
-                //setupTabLayout(dailyData.size)
                 setupRecyclerView(dailyData) // Initialize RecyclerView with API data
                 setupTabLayout(dailyData.size)
             }
@@ -110,8 +118,6 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread { showErrorDialog(error) }
         }
     }
-
-
 
     private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -129,37 +135,12 @@ class MainActivity : AppCompatActivity() {
         binding.horizontalCardRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = weatherAdapter
-            PagerSnapHelper().attachToRecyclerView(this)
+
+            // Attach SnapHelper
+            snapHelper.attachToRecyclerView(this)
         }
+
         binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
-    }
-
-    private fun getDefaultWeatherData(currentDateFormatted: String): List<WeatherItem> {
-        val currentDate = Date()
-        val dateFormat = SimpleDateFormat("MMM dd, yy", Locale.US)
-        val weatherItems = mutableListOf<WeatherItem>()
-
-        val calendar = Calendar.getInstance()
-        calendar.time = currentDate
-
-        for (i in 0 until 5) {
-            val currentDateFormatted = dateFormat.format(calendar.time)
-            weatherItems.add(
-                WeatherItem(
-                    "Erie",
-                    currentDateFormatted,
-                    R.drawable.therm_icon_transparent,
-                    "40°F",
-                    R.drawable.sunny,
-                    "42°F",
-                    "30°F",
-                    "0%"
-                )
-            )
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-        }
-
-        return weatherItems
     }
 
     private fun showLogoutMsg() {
@@ -189,4 +170,3 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 }
-
