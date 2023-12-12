@@ -3,8 +3,9 @@ package com.example.mainactivity.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mainactivity.model.WeatherItem
+import com.example.mainactivity.model.WeatherFacultyItem
 import com.example.mainactivity.databinding.WeatherCardBinding
+import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.utils.Logger
 
 class WeatherAdapter(private var dataset: List<WeatherItem>) :
@@ -41,5 +42,4 @@ class WeatherAdapter(private var dataset: List<WeatherItem>) :
         dataset = newDataset
         notifyDataSetChanged()
     }
-
 }

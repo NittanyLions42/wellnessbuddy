@@ -44,13 +44,10 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
         setupListeners()
         initializeWeatherController()
+        loadDefaultWeatherData()
 
         dataConverter = WeatherDataConverter
-
         snapHelper = PagerSnapHelper()
-
-        // Fetch weather data for the default zip code
-        loadDefaultWeatherData()
     }
 
     private fun loadDefaultWeatherData() {

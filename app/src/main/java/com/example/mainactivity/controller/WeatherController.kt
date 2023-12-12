@@ -5,7 +5,6 @@ import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.model.network.FiveDayForecast
 import com.example.mainactivity.repository.WeatherRepository
 import com.example.mainactivity.utils.Logger
-import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -15,7 +14,6 @@ class WeatherController(
     private val weatherRepository: WeatherRepository,
     private val weatherCallback: WeatherCallback,
 ) {
-
     interface WeatherCallback {
         fun onSuccess(weatherData: List<WeatherItem>)
         fun onError(error: String)
