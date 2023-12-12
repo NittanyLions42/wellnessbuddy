@@ -86,7 +86,7 @@ class FacultyActivity : AppCompatActivity() {
                     val dailyData = dataConverter.aggregateWeatherFacultyDataByDay(processedData)
 
                     setupRecyclerView(dailyData)
-                    setupTabLayout(weatherFacultyData.size)
+                    setupTabLayout(dailyData.size)
                 } else {
                     showErrorDialog("No data available")
                 }
