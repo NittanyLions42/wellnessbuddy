@@ -18,20 +18,21 @@ import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
 import com.example.mainactivity.model.network.RetrofitInstance
 import com.example.mainactivity.repository.WeatherRepository
+import com.example.mainactivity.utils.WeatherDataConverter
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Retrofit
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var weatherController: WeatherController
     private lateinit var weatherAdapter: WeatherAdapter
     private lateinit var weatherService: WeatherService
+    private lateinit var dataConverter : WeatherDataConverter
     private lateinit var retrofit: Retrofit
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +40,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        dataConverter = WeatherDataConverter
+
         setupToolbar()
         setupListeners()
-        initializeWeatherData()
-        setupListeners()
         initializeWeatherController()
-
-        }
+    }
 
     private fun setupToolbar() {
         val toolbar: Toolbar = binding.toolbar
@@ -95,9 +95,14 @@ class MainActivity : AppCompatActivity() {
     private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
         override fun onSuccess(weatherData: List<WeatherItem>) {
             runOnUiThread {
-                weatherAdapter.updateData(weatherData)
-                setupTabLayout(weatherData.size)
-                updateTabLayout(weatherData.size)
+
+                val processedData = dataConverter.processAndRoundTemperatures(weatherData)
+
+                val dailyData = dataConverter.aggregateWeatherDataByDay(processedData)
+                //weatherAdapter.updateData(dailyData)
+                //setupTabLayout(dailyData.size)
+                setupRecyclerView(dailyData) // Initialize RecyclerView with API data
+                setupTabLayout(dailyData.size)
             }
         }
 
@@ -106,12 +111,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeWeatherData() {
-        val currentDateFormatted = LocalDate.now().format(DateTimeFormatter.ofPattern("MMM d, E"))
-        val weatherItems = getDefaultWeatherData(currentDateFormatted)
-        setupRecyclerView(weatherItems)
-        setupTabLayout(weatherItems.size)
-    }
+
 
     private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -124,14 +124,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateTabLayout(size: Int) {
-        val tabLayout = binding.tabDots
-        tabLayout.removeAllTabs()
-        for (i in 0 until size) {
-            tabLayout.addTab(tabLayout.newTab())
-        }
-    }
-
     private fun setupRecyclerView(weatherItems: List<WeatherItem>) {
         weatherAdapter = WeatherAdapter(weatherItems)
         binding.horizontalCardRecyclerview.apply {
@@ -140,7 +132,6 @@ class MainActivity : AppCompatActivity() {
             PagerSnapHelper().attachToRecyclerView(this)
         }
         binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
-        updateTabLayout(weatherItems.size)
     }
 
     private fun getDefaultWeatherData(currentDateFormatted: String): List<WeatherItem> {

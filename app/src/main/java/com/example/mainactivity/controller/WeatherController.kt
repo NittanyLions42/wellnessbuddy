@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class WeatherController(
     private val weatherRepository: WeatherRepository,
@@ -57,13 +58,13 @@ class WeatherController(
         val city = weatherData.city.name
 
         for (forecast in weatherData.list) {
-            val date = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(forecast.dt * 1000L))
-            val temperature = forecast.main.temp.toString() + "°F"
+            val date = SimpleDateFormat("MMM d, yy", Locale.getDefault()).format(Date(forecast.dt * 1000L))
+            val temperature = forecast.main.temp.roundToInt().toString() + "°F"
             val weatherCondition = forecast.weather.firstOrNull()?.main ?: "Unknown"
             val weatherIcon = getWeatherIconResourceId(weatherCondition)
-            val highTemp = forecast.main.tempMax.toString() + "°F"
-            val lowTemp = forecast.main.tempMin.toString() + "°F"
-            val precipitation = forecast.pop.toString() + " in"
+            val highTemp = forecast.main.tempMax.roundToInt().toString() + "°F"
+            val lowTemp = forecast.main.tempMin.roundToInt().toString() + "°F"
+            val precipitation = forecast.pop.roundToInt().toString() + " in"
 
             val weatherItem = WeatherItem(
                 city,
