@@ -17,7 +17,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
+
+      - name: Create local.properties with API key
+        run: |
+          echo "api.key=${{ secrets.API_KEY }}" > local.properties
+
       - name: Build
         run: ./gradlew build
