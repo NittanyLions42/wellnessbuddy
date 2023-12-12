@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -7,13 +8,16 @@ plugins {
 
 }
 
-val localProperties = Properties()
-val localPropertiesFile: File = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(localPropertiesFile.inputStream())
+fun getApiKey(): String {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        val properties = Properties().apply {
+            load(FileInputStream(localPropertiesFile))
+        }
+        return properties.getProperty("api.key") ?: "default-value"
+    }
+    return System.getenv("API_KEY") ?: "default-value"
 }
-
-val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: "NoApiKeyFound"
 
 android {
     namespace = "com.example.mainactivity"
@@ -25,7 +29,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "API_KEY", "\"$mapsApiKey\"")
+        buildConfigField("String", "API_KEY", "\"${getApiKey()}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
