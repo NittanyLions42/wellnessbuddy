@@ -3,6 +3,9 @@ package com.example.mainactivity.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +17,8 @@ import com.example.mainactivity.BuildConfig
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
 import com.example.mainactivity.api.WeatherService
+import com.example.mainactivity.controller.Recommendation
+import com.example.mainactivity.controller.RecommendationController
 import com.example.mainactivity.controller.WeatherController
 import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
@@ -21,6 +26,8 @@ import com.example.mainactivity.model.network.RetrofitInstance
 import com.example.mainactivity.repository.WeatherRepository
 import com.example.mainactivity.utils.WeatherDataConverter
 import com.google.android.material.textfield.TextInputEditText
+
+
 import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity() {
@@ -28,8 +35,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weatherController: WeatherController
     private lateinit var weatherAdapter: WeatherAdapter
     private lateinit var weatherService: WeatherService
-    private lateinit var dataConverter : WeatherDataConverter
+    private lateinit var dataConverter: WeatherDataConverter
     private lateinit var retrofit: Retrofit
+
+    private lateinit var recommendationController: RecommendationController
+    private lateinit var recommendationTextView: TextView
+    private lateinit var recommendationImageView: ImageView
+    private lateinit var recommendationdesTextView: TextView
+    private var weatherData: List<WeatherItem> = emptyList()
 
     private lateinit var snapHelper: SnapHelper
 
@@ -48,7 +61,45 @@ class MainActivity : AppCompatActivity() {
 
         dataConverter = WeatherDataConverter
         snapHelper = PagerSnapHelper()
+
+        recommendationController =
+            RecommendationController(this, createRecommendationWeatherCallback())
+
+
+        val textView = findViewById<TextView>(R.id.activity_short_desc_textView)
+        val imageView = findViewById<ImageView>(R.id.recommend_activity_imageView)
+        val descTextView = findViewById<TextView>(R.id.editTextTextMultiLine)
+
+        binding.generateRandActButton.setOnClickListener {
+            val zipcodeEditText: EditText = findViewById<TextInputEditText>(R.id.zipcode_editTextNumber)
+            val enteredPostalCode = zipcodeEditText.text.toString()
+
+            if (enteredPostalCode.isNotEmpty()) {
+                // Fetch weather data and display recommendation
+                weatherController.fetchWeatherForecast(enteredPostalCode, BuildConfig.API_KEY, "imperial")
+            } else {
+                showToast("Please enter a valid postal code")
+            }
+        }
     }
+
+    private fun createRecommendationWeatherCallback() =
+        object : RecommendationController.RecommendationWeatherCallback {
+            override fun onRecommendationReady(
+                temperature: Double,
+                randomRecommendation: Recommendation.Recommendation?
+            ) {
+                runOnUiThread {
+                    displayRecommendation(temperature, randomRecommendation)
+                }
+            }
+
+            override fun onError(error: String) {
+                runOnUiThread {
+                    showErrorDialog(error)
+                }
+            }
+        }
 
     private fun loadDefaultWeatherData() {
         weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
@@ -84,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTabLayout(itemCount: Int) {
+    fun setupTabLayout(itemCount: Int) {
         val tabLayout = binding.tabDots
         tabLayout.removeAllTabs()
         for (i in 0 until itemCount) {
@@ -99,22 +150,69 @@ class MainActivity : AppCompatActivity() {
         weatherController = WeatherController(weatherRepository, createWeatherCallback())
     }
 
+
+
+
+
     private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
         override fun onSuccess(weatherData: List<WeatherItem>) {
             runOnUiThread {
-                // Process and round temperatures here
+                        // Process and round temperatures here
                 val processedData = dataConverter.processAndRoundTemperatures(weatherData)
 
                 val dailyData = dataConverter.aggregateWeatherDataByDay(processedData)
                 setupRecyclerView(dailyData) // Initialize RecyclerView with API data
                 setupTabLayout(dailyData.size)
-            }
-        }
 
-        override fun onError(error: String) {
-            runOnUiThread { showErrorDialog(error) }
+                val temperature = //added start
+                    processedData.firstOrNull()?.temperature?.removeSuffix("°F")?.toDoubleOrNull()
+                        ?: 0.0
+
+                val randomRecommendation = getRandomRecommendation(processedData, temperature)
+                recommendationController.onRecommendationReady(temperature, randomRecommendation)
+                displayRecommendation(temperature, randomRecommendation)//added end
+
+                    }
+                }
+
+                override fun onError(error: String) {
+                    runOnUiThread { showErrorDialog(error) }
+                }
+    }
+
+    fun displayRecommendation(temperature: Double, randomRecommendation: Recommendation.Recommendation?) {
+        val recommendationTextView: TextView = findViewById(R.id.activity_short_desc_textView)
+        val recommendationImageView: ImageView = findViewById(R.id.recommend_activity_imageView)
+        val recommendationdesTextView: TextView = findViewById(R.id.editTextTextMultiLine)
+
+        randomRecommendation?.let {
+            recommendationTextView.text = it.title
+
+            val bitmap = recommendationController.decodeBase64Image(it.base64img)
+            if (bitmap != null) {
+                recommendationImageView.setImageBitmap(bitmap)
+            } else {
+                recommendationImageView.setImageResource(R.drawable.lay_in_grass)
+            }
+
+            recommendationdesTextView.text = it.description
         }
     }
+    private fun getRandomRecommendation(weatherData: List<WeatherItem>, temperature: Double): Recommendation.Recommendation? {
+        return recommendationController.getRandomRecommendation(weatherData, temperature)
+    }
+
+
+
+    private fun initializeRecommendationController() {
+        recommendationController = RecommendationController(
+            this,
+            createRecommendationWeatherCallback()
+        )
+    }
+
+
+
 
     private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -130,7 +228,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView(weatherItems: List<WeatherItem>) {
         weatherAdapter = WeatherAdapter(weatherItems)
         binding.horizontalCardRecyclerview.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = weatherAdapter
 
             // Attach SnapHelper
@@ -165,5 +264,26 @@ class MainActivity : AppCompatActivity() {
         }
         val dialog = alertDialogBuilder.create()
         dialog.show()
+    }
+
+
+
+//had to add due to weathercallback()
+    fun showToast(message: String) {
+        runOnUiThread {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun updateTabLayout(size: Int) {
+        runOnUiThread {
+            val tabLayout = binding.tabDots
+            tabLayout.removeAllTabs()
+
+            for (i in 0 until size) {
+                tabLayout.addTab(tabLayout.newTab())
+            }
+        }
+
     }
 }

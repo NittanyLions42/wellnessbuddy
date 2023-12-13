@@ -42,4 +42,5 @@ class WeatherAdapter(private var dataset: List<WeatherItem>) :
         dataset = newDataset
         notifyDataSetChanged()
     }
+
 }

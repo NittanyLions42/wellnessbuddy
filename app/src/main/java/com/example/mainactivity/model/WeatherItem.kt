@@ -10,3 +10,4 @@ data class WeatherItem(
     val lowTemp: String,
     val precipitation: String
 )
+
