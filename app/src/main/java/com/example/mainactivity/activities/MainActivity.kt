@@ -2,84 +2,142 @@ package com.example.mainactivity.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
+import com.example.mainactivity.BuildConfig
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
+import com.example.mainactivity.api.WeatherService
+import com.example.mainactivity.controller.WeatherController
 import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
+import com.example.mainactivity.model.network.RetrofitInstance
+import com.example.mainactivity.repository.WeatherRepository
+import com.example.mainactivity.utils.WeatherDataConverter
+import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var weatherController: WeatherController
+    private lateinit var weatherAdapter: WeatherAdapter
+    private lateinit var weatherService: WeatherService
+    private lateinit var dataConverter : WeatherDataConverter
+    private lateinit var retrofit: Retrofit
+
+    private lateinit var snapHelper: SnapHelper
+
+    private val defaultZipCode = "16802"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set custom toolbar as the support action bar
+        setupToolbar()
+        setupListeners()
+        initializeWeatherController()
+        loadDefaultWeatherData()
+
+        dataConverter = WeatherDataConverter
+        snapHelper = PagerSnapHelper()
+    }
+
+    private fun loadDefaultWeatherData() {
+        weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
+    }
+
+    private fun setupToolbar() {
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-
-        // Add logic for the toolbar logout button here:
-        val logoutButton: Button = findViewById(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            // Handle the logout logic here
-        }
-
-        // Remove the title text from the action bar
         supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
 
-        // Create a dataset
-        val weatherItems = listOf(
-            WeatherItem("Miami, FL", "Dec 23, Tue", R.drawable.therm_icon_transparent, "21°C",
-                R.drawable.weather_icon , "27°C", "19°C" , "0.02 in"),
-            WeatherItem("New York, NY", "Dec 24, Fri", R.drawable.therm_icon_transparent, "11°C",
-                R.drawable.weather_icon , "17°C", "10°C" ,"0.20 in"),
-            WeatherItem("Seattle, WA", "Oct 26, Thurs", R.drawable.therm_icon_transparent, "6°C",
-                R.drawable.weather_icon , "11°C", "3°C" , "0.63 in"),
-            WeatherItem("LA, CA", "Dec 28, Wed", R.drawable.therm_icon_transparent, "71°C",
-                R.drawable.weather_icon , "78°C", "65°C" ,"20 in"),
-            WeatherItem("Miami, FL", "April 23, Sat", R.drawable.therm_icon_transparent, "50°C",
-                R.drawable.weather_icon , "58°C", "47","6.3 in")
-        )
+    private fun setupListeners() {
+        setupZipcodeListener()
+        setupLogoutListener()
+    }
 
-        // Set up the RecyclerView with a horizontal LinearLayoutManager and an adapter
-        binding.horizontalCardRecyclerview.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = WeatherAdapter(weatherItems)
-
-            // Attach the PagerSnapHelper to enable snapping behavior
-            val snapHelper = PagerSnapHelper()
-            snapHelper.attachToRecyclerView(this)
+    private fun setupZipcodeListener() {
+        binding.zipcodeEnterButton.setOnClickListener {
+            handleZipcodeEntry()
         }
+    }
 
-        // Initialize the TabLayout and add a tab for each item in the RecyclerView
-        val tabLayout = binding.tabDots
-        for (i in weatherItems.indices) {
-            tabLayout.addTab(tabLayout.newTab())
-        }
+    private fun handleZipcodeEntry() {
+        val zipcodeEditText: EditText = findViewById<TextInputEditText>(R.id.zipcode_editTextNumber)
+        val enteredPostalCode = zipcodeEditText.text.toString()
+        weatherController.fetchWeatherForecast(enteredPostalCode, BuildConfig.API_KEY, "imperial")
+    }
 
+
+    private fun setupLogoutListener() {
         binding.logoutButton.setOnClickListener {
             showLogoutMsg()
         }
+    }
 
-        // Add an OnScrollListener to the RecyclerView to update the selected tab
-        binding.horizontalCardRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val position = layoutManager.findFirstCompletelyVisibleItemPosition()
-                if (position != RecyclerView.NO_POSITION) {
-                    tabLayout.selectTab(tabLayout.getTabAt(position))
-                }
+    private fun setupTabLayout(itemCount: Int) {
+        val tabLayout = binding.tabDots
+        tabLayout.removeAllTabs()
+        for (i in 0 until itemCount) {
+            tabLayout.addTab(tabLayout.newTab())
+        }
+    }
+
+    private fun initializeWeatherController() {
+        retrofit = RetrofitInstance.retrofit
+        weatherService = retrofit.create(WeatherService::class.java)
+        val weatherRepository = WeatherRepository(weatherService)
+        weatherController = WeatherController(weatherRepository, createWeatherCallback())
+    }
+
+    private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
+        override fun onSuccess(weatherData: List<WeatherItem>) {
+            runOnUiThread {
+                // Process and round temperatures here
+                val processedData = dataConverter.processAndRoundTemperatures(weatherData)
+
+                val dailyData = dataConverter.aggregateWeatherDataByDay(processedData)
+                setupRecyclerView(dailyData) // Initialize RecyclerView with API data
+                setupTabLayout(dailyData.size)
             }
-        })
+        }
+
+        override fun onError(error: String) {
+            runOnUiThread { showErrorDialog(error) }
+        }
+    }
+
+    private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val position = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (position != RecyclerView.NO_POSITION) {
+                binding.tabDots.selectTab(binding.tabDots.getTabAt(position))
+            }
+        }
+    }
+
+    private fun setupRecyclerView(weatherItems: List<WeatherItem>) {
+        weatherAdapter = WeatherAdapter(weatherItems)
+        binding.horizontalCardRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = weatherAdapter
+
+            // Attach SnapHelper
+            snapHelper.attachToRecyclerView(this)
+        }
+
+        binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
     }
 
     private fun showLogoutMsg() {
@@ -97,5 +155,15 @@ class MainActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
     }
-}
 
+    private fun showErrorDialog(errorMessage: String) {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setTitle("Error")
+        alertDialogBuilder.setMessage(errorMessage)
+        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = alertDialogBuilder.create()
+        dialog.show()
+    }
+}

@@ -181,22 +181,22 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center">
-                <!-- Max UV Index Label and Value TextViews -->
+                <!-- Cloud cover Label and Value TextViews -->
                 <TextView
-                    android:id="@+id/max_uv_index_faculty"
+                    android:id="@+id/cloud_cover_index_faculty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/max_uv_index"
+                    android:text="@string/cloud_cover"
                     android:textColor="@color/White_Out"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/max_uv_index_value_faculty"
+                    android:id="@+id/cloud_cover_value_faculty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/_1_low"
+                    android:text="@string/_96"
                     android:textColor="@color/White_Out"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -210,7 +210,7 @@
                 android:gravity="center">
                 <!-- Wind Label and Value TextViews -->
                 <TextView
-                    android:id="@+id/wind_faculty"
+                    android:id="@+id/wind_speed_faculty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
@@ -219,7 +219,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/wind_value_faculty"
+                    android:id="@+id/wind_speed_value_faculty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
@@ -237,16 +237,16 @@
                 android:gravity="center">
                 <!-- Air Quality Label and Value TextViews -->
                 <TextView
-                    android:id="@+id/air_quality_faculty"
+                    android:id="@+id/humidity_faculty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/air_quality"
+                    android:text="@string/humidity"
                     android:textColor="@color/White_Out"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/air_quality_value_faculty"
+                    android:id="@+id/humidity_value_faculty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"

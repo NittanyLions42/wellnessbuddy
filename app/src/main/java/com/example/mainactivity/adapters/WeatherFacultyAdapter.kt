@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.databinding.WeatherCardFacultyBinding
 import com.example.mainactivity.model.WeatherFacultyItem
+import com.example.mainactivity.utils.Logger
 
-class WeatherFacultyAdapter(private val dataset: List<WeatherFacultyItem>) :
+class WeatherFacultyAdapter(private var dataset: List<WeatherFacultyItem>) :
     RecyclerView.Adapter<WeatherFacultyAdapter.WeatherViewHolder>() {
 
     class WeatherViewHolder(val binding: WeatherCardFacultyBinding) : RecyclerView.ViewHolder(binding.root)
@@ -22,16 +23,25 @@ class WeatherFacultyAdapter(private val dataset: List<WeatherFacultyItem>) :
             cityFaculty.text = item.city
             dateFaculty.text = item.date
             temperatureIconFaculty.setImageResource(item.temperatureIcon)
-            weatherValueFaculty.text = item.weatherDescription
+            weatherValueFaculty.text = item.temperature
             weatherIconFaculty.setImageResource(item.weatherIcon)
             highTempValueFaculty.text = item.highTemp
             lowTempValueFaculty.text = item.lowTemp
-            precipitationValueFaculty.text = item.percipitation
-            maxUvIndexValueFaculty.text = item.maxUvIndex
-            windValueFaculty.text = item.wind
-            airQualityValueFaculty.text = item.airQuality
+            precipitationValueFaculty.text = item.precipitation
+            cloudCoverValueFaculty.text = item.cloudCover
+            windSpeedValueFaculty.text = item.windSpeed
+            humidityValueFaculty.text = item.humidity
         }
     }
 
-    override fun getItemCount() = dataset.size
+    override fun getItemCount(): Int {
+        return dataset.size
+    }
+
+    fun updateData(newDataset: List<WeatherFacultyItem>) {
+        Logger.d("WeatherFacultyAdapter", "Updating data with ${newDataset.size} items")
+
+        dataset = newDataset
+        notifyDataSetChanged()
+    }
 }
