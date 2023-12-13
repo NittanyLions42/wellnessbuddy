@@ -1,15 +1,10 @@
 package com.example.mainactivity.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
-
 import android.widget.TextView
-
 import androidx.appcompat.app.AlertDialog
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,13 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
 import com.example.mainactivity.controller.Recommendation
+import com.example.mainactivity.controller.RecommendationController
 import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
-
-import com.example.mainactivity.activities.Credential
-import com.example.mainactivity.activities.dbManager
-
-import com.example.mainactivity.controller.RecommendationController
 import com.example.mainactivity.model.network.Temperature
 
 
@@ -101,6 +92,8 @@ class MainActivity : AppCompatActivity() {
         binding.logoutButton.setOnClickListener {
             showLogoutMsg()
         }
+
+
 
 
         // Add an OnScrollListener to the RecyclerView to update the selected tab

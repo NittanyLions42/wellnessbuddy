@@ -53,16 +53,24 @@ class LoginActivity : AppCompatActivity() {
             val dbMan = dbManager()
 
             val credential = Credential(username, passcode)
-
-            if(dbMan.tryLogin(credential))
+            try
             {
-                if(credential.isFaculty)
-                    startActivity(intentFacultyActivity)
+                if(dbMan.tryLogin(credential))
+                {
+                    if(credential.isFaculty)
+                        startActivity(intentFacultyActivity)
+                    else
+                        startActivity(intentMainActivity)
+                }
                 else
-                    startActivity(intentMainActivity)
+                    showLoginError()
+              }
+            catch(e: RuntimeException)
+            {
+                showPushError(e.toString())
             }
-            else
-                showLoginError()
+
+
             // Now you can use 'username' as a String
 
             // starting the MainActivity KF 11/22/2023
@@ -97,4 +105,19 @@ class LoginActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
     }
+
+    private fun showPushError(msg: String) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Login Error")
+        builder.setMessage(msg)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
 }
+
