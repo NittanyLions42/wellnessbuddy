@@ -65,21 +65,41 @@ class MainActivity : AppCompatActivity() {
         recommendationController =
             RecommendationController(this, createRecommendationWeatherCallback())
 
+
+        val textView = findViewById<TextView>(R.id.activity_short_desc_textView)
+        val imageView = findViewById<ImageView>(R.id.recommend_activity_imageView)
+        val descTextView = findViewById<TextView>(R.id.editTextTextMultiLine)
+
         binding.generateRandActButton.setOnClickListener {
-            val weatherData = weatherAdapter?.() // need to incorporate a different function here for weatherdata
+            val zipcodeEditText: EditText = findViewById<TextInputEditText>(R.id.zipcode_editTextNumber)
+            val enteredPostalCode = zipcodeEditText.text.toString()
 
-            if (!weatherData.isNullOrEmpty()) {
-                val firstWeatherItem = weatherData.first()
-                val temperature = firstWeatherItem.temperature?.removeSuffix("°F")?.toDoubleOrNull() ?: 0.0
-                val weatherCondition = firstWeatherItem.weatherCondition ?: "Unknown"
-
-                recommendationController.displayRecommendation(weatherData, temperature, weatherCondition)
+            if (enteredPostalCode.isNotEmpty()) {
+                // Fetch weather data and display recommendation
+                weatherController.fetchWeatherForecast(enteredPostalCode, BuildConfig.API_KEY, "imperial")
             } else {
-
-                showToast("Weather data not available")
+                showToast("Please enter a valid postal code")
             }
         }
     }
+
+    private fun createRecommendationWeatherCallback() =
+        object : RecommendationController.RecommendationWeatherCallback {
+            override fun onRecommendationReady(
+                temperature: Double,
+                randomRecommendation: Recommendation.Recommendation?
+            ) {
+                runOnUiThread {
+                    displayRecommendation(temperature, randomRecommendation)
+                }
+            }
+
+            override fun onError(error: String) {
+                runOnUiThread {
+                    showErrorDialog(error)
+                }
+            }
+        }
 
     private fun loadDefaultWeatherData() {
         weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
@@ -131,6 +151,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+
+
     private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
         override fun onSuccess(weatherData: List<WeatherItem>) {
             runOnUiThread {
@@ -141,14 +164,13 @@ class MainActivity : AppCompatActivity() {
                 setupRecyclerView(dailyData) // Initialize RecyclerView with API data
                 setupTabLayout(dailyData.size)
 
-                val temperature =
-                    weatherData.firstOrNull()?.temperature?.removeSuffix("°F")?.toDoubleOrNull() ?: 0.0 //added start
-                val weatherCondition = weatherData.firstOrNull()?.weatherCondition ?: "Unknown"
+                val temperature = //added start
+                    processedData.firstOrNull()?.temperature?.removeSuffix("°F")?.toDoubleOrNull()
+                        ?: 0.0
 
-                val randomRecommendation = getRandomRecommendation(processedData, temperature, weatherCondition)
-                recommendationController.onRecommendationReady(temperature, weatherCondition, randomRecommendation)
-
-                displayRecommendation(randomRecommendation, weatherCondition)//added end
+                val randomRecommendation = getRandomRecommendation(processedData, temperature)
+                recommendationController.onRecommendationReady(temperature, randomRecommendation)
+                displayRecommendation(temperature, randomRecommendation)//added end
 
                     }
                 }
@@ -158,22 +180,29 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
-    fun displayRecommendation(recommendation: Recommendation.Recommendation) {
+    fun displayRecommendation(temperature: Double, randomRecommendation: Recommendation.Recommendation?) {
         val recommendationTextView: TextView = findViewById(R.id.activity_short_desc_textView)
         val recommendationImageView: ImageView = findViewById(R.id.recommend_activity_imageView)
         val recommendationdesTextView: TextView = findViewById(R.id.editTextTextMultiLine)
 
-        recommendationTextView.text = recommendation.title
+        randomRecommendation?.let {
+            recommendationTextView.text = it.title
 
-        val bitmap = recommendationController.decodeBase64Image(recommendation.base64img)
-        if (bitmap != null) {
-            recommendationImageView.setImageBitmap(bitmap)
-        } else {
-            recommendationImageView.setImageResource(R.drawable.lay_in_grass)
+            val bitmap = recommendationController.decodeBase64Image(it.base64img)
+            if (bitmap != null) {
+                recommendationImageView.setImageBitmap(bitmap)
+            } else {
+                recommendationImageView.setImageResource(R.drawable.lay_in_grass)
+            }
+
+            recommendationdesTextView.text = it.description
         }
-
-        recommendationdesTextView.text = recommendation.description
     }
+    private fun getRandomRecommendation(weatherData: List<WeatherItem>, temperature: Double): Recommendation.Recommendation? {
+        return recommendationController.getRandomRecommendation(weatherData, temperature)
+    }
+
+
 
     private fun initializeRecommendationController() {
         recommendationController = RecommendationController(
@@ -183,27 +212,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun createRecommendationWeatherCallback() =
-        object : RecommendationController.RecommendationWeatherCallback {
-            override fun onRecommendationReady(
-                temperature: Double,
-                weatherCondition: String,
-                randomRecommendation: Recommendation.Recommendation?
-            ) {
-                runOnUiThread {
-                    val weatherData: List<WeatherItem> =
-                        randomRecommendation?.let {
-                            view.displayRecommendation(it) // need to change for fetching weather data 
-                        } ?: emptyList()
-                }
-            }
 
-            override fun onError(error: String) {
-                runOnUiThread {
-                    showErrorDialog(error)
-                }
-            }
-        }
 
     private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -259,7 +268,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+//had to add due to weathercallback()
     fun showToast(message: String) {
         runOnUiThread {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

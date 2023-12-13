@@ -22,6 +22,8 @@ class RecommendationController(
     private val recommendationWeatherCallback: RecommendationWeatherCallback
 ) {
 
+
+
     @SuppressLint("AuthLeak")
     var connectionURL =
         "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request"
@@ -31,11 +33,7 @@ class RecommendationController(
     private val weatherAdapter: WeatherAdapter? = null
 
     interface RecommendationWeatherCallback {
-        fun onRecommendationReady(
-            temperature: Double,
-            weatherCondition: String,
-            randomRecommendation: Recommendation.Recommendation?
-        )
+        fun onRecommendationReady(temperature: Double, randomRecommendation: Recommendation.Recommendation?)
         fun onError(error: String)
     }
 
@@ -51,119 +49,109 @@ class RecommendationController(
     // query database for values for outdoor or indoor activities
     @Throws(SQLException::class)
     fun loadRecommendationFromJson() {
-        try {
-            // Load JDBC driver
-            Class.forName("net.sourceforge.jtds.jdbc.Driver")
+            try {
+                // Load JDBC driver
+                Class.forName("net.sourceforge.jtds.jdbc.Driver")
 
-            // Establish a connection
-            DriverManager.getConnection(connectionURL).use { connection ->
-                val query =
-                    "SELECT Outdoor_Title, Outdoor_Img, Outdoor_Description, Indoor_Title, Indoor_Img, Indoor_Description FROM dbo.activities_data"
-                connection.prepareStatement(query).use { preparedStatement ->
-                    val resultSet = preparedStatement.executeQuery()
+                // Establish a connection
+                DriverManager.getConnection(connectionURL).use { connection ->
+                    val query =
+                        "SELECT Outdoor_Title, Outdoor_Img, Outdoor_Description, Indoor_Title, Indoor_Img, Indoor_Description FROM dbo.activities_data"
+                    connection.prepareStatement(query).use { preparedStatement ->
+                        val resultSet = preparedStatement.executeQuery()
 
-                    // Process the result set
-                    while (resultSet.next()) {
-                        val outdoortitle = resultSet.getString("Outdoor_Title")
-                        val outdoorimg = resultSet.getString("Outdoor_Img")
-                        val outdoordescription = resultSet.getString("Outdoor_Description")
+                        // Process the result set
+                        while (resultSet.next()) {
+                            val outdoortitle = resultSet.getString("Outdoor_Title")
+                            val outdoorimg = resultSet.getString("Outdoor_Img")
+                            val outdoordescription = resultSet.getString("Outdoor_Description")
 
-                        // Parse the information and add to recommendationsMap
-                        if (outdoortitle != null && outdoorimg != null && outdoordescription != null) {
-                            val outdoorRecommendation =
-                                Recommendation.Recommendation(
-                                    outdoortitle,
-                                    outdoorimg,
-                                    outdoordescription
+                            // Parse the information and add to recommendationsMap
+                            if (outdoortitle != null && outdoorimg != null && outdoordescription != null) {
+                                val outdoorRecommendation =
+                                    Recommendation.Recommendation(
+                                        outdoortitle,
+                                        outdoorimg,
+                                        outdoordescription
+                                    )
+                                recommendationsMap.add(
+                                    AgeRangeRecommendation(
+                                        IntRange(55, 100),
+                                        listOf(outdoorRecommendation)
+                                    )
                                 )
-                            recommendationsMap.add(
-                                AgeRangeRecommendation(
-                                    IntRange(55, 100),
-                                    listOf(outdoorRecommendation)
+
+                                Log.d(
+                                    "RecommendationController",
+                                    "Outdoor Title: $outdoortitle, Outdoor Img: $outdoorimg, Outdoor Description: $outdoordescription"
                                 )
-                            )
+                            }
 
-                            Log.d(
-                                "RecommendationController",
-                                "Outdoor Title: $outdoortitle, Outdoor Img: $outdoorimg, Outdoor Description: $outdoordescription"
-                            )
-                        }
+                            val indoorTitle = resultSet.getString("Indoor_Title")
+                            val indoorImg = resultSet.getString("Indoor_Img")
+                            val indoorDescription = resultSet.getString("Indoor_Description")
 
-                        val indoorTitle = resultSet.getString("Indoor_Title")
-                        val indoorImg = resultSet.getString("Indoor_Img")
-                        val indoorDescription = resultSet.getString("Indoor_Description")
-
-                        // Parse the information and add to recommendationsMap
-                        if (indoorTitle != null && indoorImg != null && indoorDescription != null) {
-                            val indoorRecommendation =
-                                Recommendation.Recommendation(
-                                    indoorTitle,
-                                    indoorImg,
-                                    indoorDescription
+                            // Parse the information and add to recommendationsMap
+                            if (indoorTitle != null && indoorImg != null && indoorDescription != null) {
+                                val indoorRecommendation =
+                                    Recommendation.Recommendation(
+                                        indoorTitle,
+                                        indoorImg,
+                                        indoorDescription
+                                    )
+                                recommendationsMap.add(
+                                    AgeRangeRecommendation(
+                                        IntRange(0, 54),
+                                        listOf(indoorRecommendation)
+                                    )
                                 )
-                            recommendationsMap.add(
-                                AgeRangeRecommendation(
-                                    IntRange(0, 54),
-                                    listOf(indoorRecommendation)
-                                )
-                            )
 
-                            Log.d(
-                                "RecommendationController",
-                                "Indoor Title: $indoorTitle, Indoor Img: $indoorImg, Indoor Description: $indoorDescription"
-                            )
+                                Log.d(
+                                    "RecommendationController",
+                                    "Indoor Title: $indoorTitle, Indoor Img: $indoorImg, Indoor Description: $indoorDescription"
+                                )
+                            }
                         }
                     }
                 }
+            } catch (e: SQLException) {
+                throw RuntimeException("Error executing SQL query", e)
+            } catch (e: Exception) {
+                throw RuntimeException(e)
             }
-        } catch (e: SQLException) {
-            throw RuntimeException("Error executing SQL query", e)
-        } catch (e: Exception) {
-            throw RuntimeException(e)
         }
-    }
 
-    fun displayRecommendation(
-        weatherData: List<WeatherItem>,
-        temperature: Double,
-        weatherCondition: String
-    ) {
-        val randomRecommendation = getRandomRecommendation(recommendationsMap, temperature, weatherCondition)
-        recommendationWeatherCallback.onRecommendationReady(temperature, weatherCondition, randomRecommendation)
+
+
+
+
+
+    private fun createRecommendationWeatherCallback() =
+        object : RecommendationWeatherCallback {
+            override fun onRecommendationReady(
+                temperature: Double,
+                randomRecommendation: Recommendation.Recommendation?
+            ) {
+                runOnUiThread {
+                    displayRecommendation(temperature, randomRecommendation)
+                }
+            }
+
+            override fun onError(error: String) {
+                runOnUiThread {
+                    showErrorDialog(error)
+                }
+            }
+        }
+
+    fun displayRecommendation(temperature: Double, randomRecommendation: Recommendation.Recommendation?) {
+        recommendationWeatherCallback.onRecommendationReady(temperature, randomRecommendation)
 
         randomRecommendation?.let {
-            view.displayRecommendation(it, weatherCondition)
+            view.displayRecommendation(temperature, randomRecommendation)
         }
     }
 
-
-    private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
-        override fun onSuccess(weatherData: List<WeatherItem>) {
-            runOnUiThread {
-
-                weatherAdapter?.updateData(weatherData)
-                setupTabLayout(weatherData.size)
-                updateTabLayout(weatherData.size)
-
-                val temperature =
-                    weatherData.firstOrNull()?.temperature?.removeSuffix("°F")?.toDoubleOrNull() ?: 0.0
-                val weatherCondition = weatherData.firstOrNull()?.weatherCondition ?: "Unknown" // may need to remove weatherCondition.. not reading from the right dataset
-
-                recommendationWeatherCallback.onRecommendationReady(
-                    temperature,
-                    weatherCondition,
-                    randomRecommendation
-                )
-
-                displayRecommendation(weatherData, temperature, weatherCondition)
-            }
-        }
-
-        override fun onError(error: String) {
-            runOnUiThread { showErrorDialog(error) }
-            recommendationWeatherCallback.onError(error)
-        }
-    }
 
     private fun updateTabLayout(size: Int) {
         view.updateTabLayout(size)
@@ -179,7 +167,7 @@ class RecommendationController(
     }
 
     private fun showErrorDialog(error: String) {
-        val builder = AlertDialog.Builder(view) // Assuming 'view' is the context from MainActivity
+        val builder = AlertDialog.Builder(view)
         builder.setTitle("Error")
         builder.setMessage(error)
         builder.setPositiveButton("OK") { dialog, _ ->
@@ -203,66 +191,44 @@ class RecommendationController(
     }
 
 
-
     // get random activity recommendation
-    fun getRandomRecommendation(
-        weatherData: CopyOnWriteArrayList<AgeRangeRecommendation>,
-        temperature: Double,
-        weatherCondition: String
-    ): Recommendation.Recommendation? {
-        val random = Random.Default
-        val ageRange = random.nextInt(101)
+    fun getRandomRecommendation(weatherData: List<WeatherItem>, temperature: Double): Recommendation.Recommendation? {
+        val suitableRecommendations = mutableListOf<Recommendation.Recommendation>()
 
-        val makeRecommendations = recommendationsMap
-            .find {
-                ageRange in it.ageRange && isWeatherConditionSuitable(
-                    it.recommendations,
-                    temperature,
-                    weatherCondition
-                )
-            }
-            ?.recommendations
-
-        return makeRecommendations?.let {
-            if (it.isNotEmpty()) {
-                val index = random.nextInt(it.size)
-                it[index]
-            } else {
-                null
+        for (item in weatherData) {
+            val recommendations = item.recommendations  //suggestion is to add this into WeatherItem
+            if (recommendations != null && isWeatherSuitable(recommendations, temperature)) {
+                suitableRecommendations.addAll(recommendations)
             }
         }
+
+        return suitableRecommendations.shuffled().firstOrNull()
     }
 
-    private fun isWeatherConditionSuitable(
-        recommendations: List<Recommendation.Recommendation>,
-        temperature: Double,
-        weatherCondition: String
-    ): Boolean {
-        return temperature > 70 && isClear(weatherCondition)
+    private fun isWeatherSuitable(recommendations: List<Recommendation.Recommendation>, temperature: Double): Boolean {
+
+        return temperature > 70.0
     }
 
-    private fun isClear(weatherCondition: String): Boolean {
-        return weatherCondition.contains(
-            "clear",
-            ignoreCase = true
-        ) || weatherCondition.contains("sun", ignoreCase = true)
-    }
-
-    fun onRecommendationReady(temperature: Double, weatherCondition: String, randomRecommendation: Recommendation.Recommendation?) {
-        // Handle recommendation ready (if needed)
-
+    fun onRecommendationReady(temperature: Double, randomRecommendation: Recommendation.Recommendation?) {
         if (randomRecommendation != null) {
-            // Example: Display the recommendation in the UI
-            view.displayRecommendation(randomRecommendation, weatherCondition)
-
-            // Example: Show a toast message with the recommendation details
+            view.displayRecommendation(temperature, randomRecommendation)
             view.showToast("Recommended activity: ${randomRecommendation.title}")
-
-
         } else {
-            // Handle the case when no recommendation is available
             view.showToast("No recommendation available for the current weather")
         }
+
     }
 }
+
+
+//    private fun isClear(weatherCondition: String): Boolean {
+//        return weatherCondition.contains(
+//            "clear",
+//            ignoreCase = true
+//        ) || weatherCondition.contains("sun", ignoreCase = true)
+//    }
+
+
+
 
