@@ -21,8 +21,10 @@ public class dbManager {
         localVar  =true;
     }
 
-    public boolean tryLogin(Credential credential) {
+    public boolean tryLogin(Credential credential) throws RuntimeException {
         try (Connection con = connectionclass()) {
+            if(con == null)
+                throw new RuntimeException("Can't connect to the database.");
             // Create a prepared statement with a parameterized query
             String sql = "SELECT passcode, isFaculty FROM credentials WHERE userID = ?";
             try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
