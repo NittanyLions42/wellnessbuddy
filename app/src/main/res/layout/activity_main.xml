@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/recommended_activity_area_title"
             android:textAlignment="center"
             android:textColor="@color/White_Out"
@@ -46,19 +47,22 @@
 
             <ImageView
                 android:id="@+id/recommend_activity_imageView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
                 android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/lay_in_grass"
                 tools:srcCompat="@drawable/lay_in_grass"
                 tools:visibility="visible"
-                android:contentDescription="@drawable/lay_in_grass" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/editTextTextMultiLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:ems="10"
@@ -87,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/roboto_italic"
             android:text="@string/weather_card_title"
             android:textAlignment="center"

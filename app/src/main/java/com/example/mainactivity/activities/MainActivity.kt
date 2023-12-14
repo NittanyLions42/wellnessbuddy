@@ -1,6 +1,7 @@
 package com.example.mainactivity.activities
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +15,7 @@ import com.example.mainactivity.BuildConfig
 import com.example.mainactivity.R
 import com.example.mainactivity.adapters.WeatherAdapter
 import com.example.mainactivity.api.WeatherService
+import com.example.mainactivity.controller.ActivitySuggestionController
 import com.example.mainactivity.controller.WeatherController
 import com.example.mainactivity.databinding.ActivityMainBinding
 import com.example.mainactivity.model.WeatherItem
@@ -21,9 +23,11 @@ import com.example.mainactivity.model.network.RetrofitInstance
 import com.example.mainactivity.repository.WeatherRepository
 import com.example.mainactivity.utils.WeatherDataConverter
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import androidx.lifecycle.lifecycleScope
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), WeatherController.WeatherCallback {
     private lateinit var binding: ActivityMainBinding
     private lateinit var weatherController: WeatherController
     private lateinit var weatherAdapter: WeatherAdapter
@@ -33,8 +37,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var snapHelper: SnapHelper
 
-    private val defaultZipCode = "16802"
+    private lateinit var activitySuggestionController: ActivitySuggestionController
 
+    private var currentWeatherData: List<WeatherItem> = listOf()
+
+    private val defaultZipCode = "16802"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +55,19 @@ class MainActivity : AppCompatActivity() {
 
         dataConverter = WeatherDataConverter
         snapHelper = PagerSnapHelper()
+
+        activitySuggestionController = ActivitySuggestionController(this)
+
     }
 
     private fun loadDefaultWeatherData() {
-        weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
+        lifecycleScope.launch {
+            try {
+                weatherController.fetchWeatherForecast(defaultZipCode, BuildConfig.API_KEY, "imperial")
+            } catch (e: Exception) {
+                showErrorDialog("Failed to load default weather data: ${e.message}")
+            }
+        }
     }
 
     private fun setupToolbar() {
@@ -63,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupListeners() {
         setupZipcodeListener()
         setupLogoutListener()
+        setupRandomActivityButton()
     }
 
     private fun setupZipcodeListener() {
@@ -74,9 +91,20 @@ class MainActivity : AppCompatActivity() {
     private fun handleZipcodeEntry() {
         val zipcodeEditText: EditText = findViewById<TextInputEditText>(R.id.zipcode_editTextNumber)
         val enteredPostalCode = zipcodeEditText.text.toString()
-        weatherController.fetchWeatherForecast(enteredPostalCode, BuildConfig.API_KEY, "imperial")
-    }
 
+        if (enteredPostalCode.isBlank()) {
+            showErrorDialog("Please enter a valid ZIP code.")
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                weatherController.fetchWeatherForecast(enteredPostalCode, BuildConfig.API_KEY, "imperial")
+            } catch (e: Exception) {
+                showErrorDialog("Failed to load weather data for ZIP code: ${e.message}")
+            }
+        }
+    }
 
     private fun setupLogoutListener() {
         binding.logoutButton.setOnClickListener {
@@ -84,60 +112,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTabLayout(itemCount: Int) {
-        val tabLayout = binding.tabDots
-        tabLayout.removeAllTabs()
-        for (i in 0 until itemCount) {
-            tabLayout.addTab(tabLayout.newTab())
-        }
-    }
-
-    private fun initializeWeatherController() {
-        retrofit = RetrofitInstance.retrofit
-        weatherService = retrofit.create(WeatherService::class.java)
-        val weatherRepository = WeatherRepository(weatherService)
-        weatherController = WeatherController(weatherRepository, createWeatherCallback())
-    }
-
-    private fun createWeatherCallback() = object : WeatherController.WeatherCallback {
-        override fun onSuccess(weatherData: List<WeatherItem>) {
-            runOnUiThread {
-                // Process and round temperatures here
-                val processedData = dataConverter.processAndRoundTemperatures(weatherData)
-
-                val dailyData = dataConverter.aggregateWeatherDataByDay(processedData)
-                setupRecyclerView(dailyData) // Initialize RecyclerView with API data
-                setupTabLayout(dailyData.size)
-            }
-        }
-
-        override fun onError(error: String) {
-            runOnUiThread { showErrorDialog(error) }
-        }
-    }
-
-    private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val position = layoutManager.findFirstCompletelyVisibleItemPosition()
-            if (position != RecyclerView.NO_POSITION) {
-                binding.tabDots.selectTab(binding.tabDots.getTabAt(position))
+    private fun setupRandomActivityButton() {
+        binding.generateRandActButton.setOnClickListener {
+            if (currentWeatherData.isNotEmpty()) {
+                activitySuggestionController.recommendActivityBasedOnWeather(currentWeatherData)
+            } else {
+                showErrorDialog("Please fetch weather data first.")
             }
         }
     }
 
-    private fun setupRecyclerView(weatherItems: List<WeatherItem>) {
-        weatherAdapter = WeatherAdapter(weatherItems)
-        binding.horizontalCardRecyclerview.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = weatherAdapter
+    fun displayActivityRecommendation(recommendation: ActivitySuggestionController.ActivityRecommendation) {
+        lifecycleScope.launch {
+            binding.activityShortDescTextView.text = recommendation.title
+            binding.recommendActivityImageView.setImageResource(recommendation.imageResId)
+            binding.editTextTextMultiLine.text = recommendation.description
+        }
+    }
 
-            // Attach SnapHelper
-            snapHelper.attachToRecyclerView(this)
+    // WeatherController callback methods
+    override fun onSuccess(weatherData: List<WeatherItem>) {
+        currentWeatherData = WeatherDataConverter.processAndRoundTemperatures(weatherData)
+        val aggregatedData = WeatherDataConverter.aggregateWeatherDataByDay(currentWeatherData)
+
+        runOnUiThread {
+            setupRecyclerView(aggregatedData) // Initialize RecyclerView with processed and aggregated data
+            setupTabLayout(aggregatedData.size) // Set up TabLayout based on the aggregated data size
         }
 
-        binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
+        // Generate activity recommendation based on the new weather data
+        if (aggregatedData.isNotEmpty()) {
+            activitySuggestionController.recommendActivityBasedOnWeather(aggregatedData)
+        }
+    }
+
+    override fun onError(error: String) {
+        showErrorDialog("Failed to load weather data: $error")
     }
 
     private fun showLogoutMsg() {
@@ -156,14 +166,50 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showErrorDialog(errorMessage: String) {
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setTitle("Error")
-        alertDialogBuilder.setMessage(errorMessage)
-        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
-        }
-        val dialog = alertDialogBuilder.create()
-        dialog.show()
+    fun showErrorDialog(errorMessage: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Error")
+            .setMessage(errorMessage)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
+
+    private fun initializeWeatherController() {
+        retrofit = RetrofitInstance.retrofit
+        weatherService = retrofit.create(WeatherService::class.java)
+        val weatherRepository = WeatherRepository(weatherService)
+        weatherController = WeatherController(weatherRepository, this)
+    }
+
+    private fun setupRecyclerView(weatherItems: List<WeatherItem>) {
+        weatherAdapter = WeatherAdapter(weatherItems)
+        binding.horizontalCardRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = weatherAdapter
+            snapHelper.attachToRecyclerView(this)
+        }
+        binding.horizontalCardRecyclerview.addOnScrollListener(createOnScrollListener())
+    }
+
+    private fun createOnScrollListener() = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val position = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (position != RecyclerView.NO_POSITION) {
+                binding.tabDots.selectTab(binding.tabDots.getTabAt(position))
+            }
+        }
+    }
+
+    private fun setupTabLayout(itemCount: Int) {
+        val tabLayout = binding.tabDots
+        tabLayout.removeAllTabs()
+        for (i in 0 until itemCount) {
+            tabLayout.addTab(tabLayout.newTab())
+        }
+    }
+
+
+
 }
