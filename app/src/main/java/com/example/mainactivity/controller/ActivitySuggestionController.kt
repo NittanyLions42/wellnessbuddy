@@ -9,26 +9,37 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 import android.util.Log
-
+/**
+ * Controller for suggesting activities based on current weather conditions.
+ * @param view Reference to MainActivity for updating UI.
+ * **/
 class ActivitySuggestionController(private val view: MainActivity) {
 
+    // Database connection string.
     @SuppressLint("AuthLeak")
-    private val connectionURL = ""
+    private val connectionURL = "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request"
 
+    // Data class representing an activity recommendation
     data class ActivityRecommendation(
         val title: String,
         val imageResId: Int,
         val description: String
     )
 
+    // Eum for different weather conditions
     enum class WeatherCondition {
         RAINY, CLEAR, CLOUDY, DEFAULT
     }
 
+    // Eum for types of activities
     enum class ActivityType {
         INDOOR, OUTDOOR, DEFAULT
     }
 
+    /**
+     * Recommends an activity based on the current weather conditions.
+     * @param weatherItems List of WeatherItem objects representing the weather data
+     * **/
     fun recommendActivityBasedOnWeather(weatherItems: List<WeatherItem>) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -46,22 +57,28 @@ class ActivitySuggestionController(private val view: MainActivity) {
         }
     }
 
-    fun fetchNewRandomActivity() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val activityType = listOf(ActivityType.INDOOR, ActivityType.OUTDOOR).random()
-                val recommendation = fetchRandomRecommendation(activityType)
-                withContext(Dispatchers.Main) {
-                    view.displayActivityRecommendation(recommendation)
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    view.showErrorDialog("Failed to fetch new activity: ${e.message}")
-                }
-            }
-        }
-    }
+//    fun fetchNewRandomActivity() {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            try {
+//                val activityType = listOf(ActivityType.INDOOR, ActivityType.OUTDOOR).random()
+//                val recommendation = fetchRandomRecommendation(activityType)
+//                withContext(Dispatchers.Main) {
+//                    view.displayActivityRecommendation(recommendation)
+//                }
+//            } catch (e: Exception) {
+//                withContext(Dispatchers.Main) {
+//                    view.showErrorDialog("Failed to fetch new activity: ${e.message}")
+//                }
+//            }
+//        }
+//    }
 
+    /**
+     * Determines the current weather condition based on the first item in the weather data list.
+     *
+     * @param weatherItems A list of WeatherItem objects.
+     * @return A WeatherCondition enum value representing the current weather condition
+     * **/
     private fun getCurrentWeatherCondition(weatherItems: List<WeatherItem>): WeatherCondition {
         val firstItem = weatherItems.firstOrNull() ?: return WeatherCondition.DEFAULT
 
@@ -73,6 +90,12 @@ class ActivitySuggestionController(private val view: MainActivity) {
         }
     }
 
+    /**
+     * Determines the type of activity suitable for the current weather.
+     *
+     * @param weatherCondition A WeatherCondition enum value.
+     * @return An ActivityType enum value representing the suitable type of activity.
+     * **/
     private fun determineActivityType(weatherCondition: WeatherCondition): ActivityType {
         return when (weatherCondition) {
             WeatherCondition.RAINY, WeatherCondition.CLOUDY -> ActivityType.INDOOR
@@ -81,6 +104,12 @@ class ActivitySuggestionController(private val view: MainActivity) {
         }
     }
 
+    /**
+     * Fetches a random activity recommendation from the database based on activity type.
+     *
+     * @param activityType An ActivityType enum value.
+     * @return An ActivityRecommendation object containing the suggested activity details.
+     * **/
     @SuppressLint("DiscouragedApi")
     private fun fetchRandomRecommendation(activityType: ActivityType): ActivityRecommendation {
         var connection: Connection? = null
@@ -121,7 +150,4 @@ class ActivitySuggestionController(private val view: MainActivity) {
         return fetchRandomRecommendation(activityType) // Recursive call if no data is found
     }
 
-    private fun defaultRecommendation(): ActivityRecommendation {
-        return ActivityRecommendation("Default Title", R.drawable.lay_in_grass, "Default Description")
-    }
 }

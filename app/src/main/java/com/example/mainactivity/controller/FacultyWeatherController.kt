@@ -9,16 +9,31 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.math.roundToInt
-
+/**
+ * Controller for fetching and handling weather data specifically for faculty user.
+ *
+ * @param weatherRepository The repository to fetch weather data.
+ * @param facultyCallback The callback interface to communicate with the view.
+ * **/
 class FacultyWeatherController(
     private val weatherRepository: WeatherRepository,
     private val facultyCallback: FacultyWeatherCallback
 ) {
+    /**
+     * Interface for callbacks to handle success or error in weather data fetching.
+     * **/
     interface FacultyWeatherCallback {
         fun onSuccess(weatherFacultyData: List<WeatherFacultyItem>)
         fun onError(error: String)
     }
 
+    /**
+     * Fetches the weather forecast based on the provided zipcode, API key, and units.
+     *
+     * @param zipCode The zipcode for which weather data is to be fetched.
+     * @param apiKey The API key for weather data access.
+     * @param units The measurement units for weather data.
+     * **/
     fun fetchFacultyWeatherForecast(
         zipCode: String,
         apiKey: String,
@@ -56,7 +71,12 @@ class FacultyWeatherController(
         )
     }
 }
-
+/**
+ * Converts raw weather data into a list of WeatherFacultyItem objects for UI.
+ *
+ * @param weatherFacultyData The raw weather data.
+ * @return A list of WeatherFacultyItem objects.
+ * **/
 private fun convertDataToFacultyWeatherItems(weatherFacultyData: FiveDayForecast): List<WeatherFacultyItem> {
     val weatherFacultyItems = mutableListOf<WeatherFacultyItem>()
     val city = weatherFacultyData.city.name
@@ -93,6 +113,12 @@ private fun convertDataToFacultyWeatherItems(weatherFacultyData: FiveDayForecast
     return weatherFacultyItems
 }
 
+/**
+ * Determines the resource ID for the weather icon based on the weather condition.
+ *
+ * @param weatherCondition The current weather condition.
+ * @return The resource ID of the corresponding weather icon.
+ * **/
 private fun getWeatherIconResourceId(weatherCondition: String): Int {
     return when (weatherCondition) {
         "Clear" -> R.drawable.sunny

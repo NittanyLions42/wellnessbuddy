@@ -27,7 +27,6 @@ class FacultyActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.zipcode_faculty))
             .perform(ViewActions.typeText("12345"), ViewActions.closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(R.id.zipcode_faculty_enter_button)).perform(ViewActions.click())
-        // Assertions or verifications after button click
     }
 
     @Test
@@ -47,8 +46,5 @@ class FacultyActivityTest {
     @Test
     fun logoutButtonClickTest() {
         Espresso.onView(ViewMatchers.withId(R.id.logoutButton_faculty)).perform(ViewActions.click())
-        // Assertions to verify logout behavior, like returning to the login screen
-        // For example, if logout navigates to a login screen:
-        // onView(withId(R.id.login_screen_id)).check(matches(isDisplayed()))
     }
 }

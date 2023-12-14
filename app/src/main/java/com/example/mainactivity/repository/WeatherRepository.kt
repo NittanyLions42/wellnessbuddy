@@ -6,19 +6,33 @@ import com.example.mainactivity.utils.Logger
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+/**
+ * Repository class for handling weather data fetching operations.
+ *
+ * @param weatherService The WeatherService interface for making API calls.
+ * **/
 class WeatherRepository(private val weatherService: WeatherService) {
 
+    /**
+     * Callback interface for handling responses from weather data requests.
+     * **/
     interface WeatherCallback {
         fun onSuccess(weatherData: FiveDayForecast?)
         fun onError(error: String)
     }
-
     interface WeatherFacultyCallback {
         fun onSuccess(weatherFacultyData: FiveDayForecast?)
         fun onError(error: String)
     }
 
+    /**
+     * Fetches the student-specific weather forecast for a given zipcode.
+     *
+     * @param zipCode The zip code for which the weather data is to be fetched.
+     * @param apiKey The API key for authentication.
+     * @param units The unit system for the weather data.
+     * @param callback The callback interface to handle success or error.
+     * **/
     fun getWeatherForecast(
         zipCode: String,
         apiKey: String,
@@ -50,7 +64,14 @@ class WeatherRepository(private val weatherService: WeatherService) {
             }
         })
     }
-
+    /**
+     * Fetches faculty-specific weather forecast for a given zipcode.
+     *
+     * @param zipCode The zip code for which the weather data is to be fetched.
+     * @param apiKey The API key for authentication.
+     * @param units The unit system for the weather data.
+     * @param callback The callback interface to handle success or error.
+     * **/
     fun getFacultyWeatherForecast(
         zipCode: String,
         apiKey: String,
