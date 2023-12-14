@@ -7,8 +7,17 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import kotlin.math.roundToInt
-
+/**
+ * Utility object for processing and aggregating weather data.
+ */
 object WeatherDataConverter {
+    /**
+     * Aggregate weather data for a single day from a list of WeatherItem objects.
+     * Specifically used for student user.
+     *
+     * @param dailyItems List of WeatherItem objects for a particular day.
+     * @return An aggregated WeatherItem object representing the day's weather.
+     * **/
     @JvmStatic
     fun aggregateWeatherItemDayData(dailyItems: List<WeatherItem>): WeatherItem {
         val filteredItems = dailyItems.filter { item ->
@@ -76,6 +85,12 @@ object WeatherDataConverter {
         )
     }
 
+    /**
+     * Aggregate weather data by day from a list of WeatherItem objects.
+     *
+     * @param weatherItems List of WeatherItem objects.
+     * @return A list of aggregated WeatherItem objects, one for each day.
+     * **/
     fun aggregateWeatherDataByDay(weatherItems: List<WeatherItem>): List<WeatherItem> {
         val aggregatedData = mutableListOf<WeatherItem>()
 
@@ -90,6 +105,12 @@ object WeatherDataConverter {
         return aggregatedData.take(5) // Take data for up to 5 days
     }
 
+    /**
+     * Processes and rounds temperatures in a list of WeatherItem objects.
+     *
+     * @param weatherData List of WeatherItem objects.
+     * @return A list of WeatherItem objects with processed temperature values.
+     * **/
     fun processAndRoundTemperatures(weatherData: List<WeatherItem>): List<WeatherItem> {
         return weatherData.map { item ->
             item.copy(
@@ -101,6 +122,12 @@ object WeatherDataConverter {
         }
     }
 
+    /**
+     * Aggregate weather data by day from a list of WeatherFacultyItem objects.
+     *
+     * @param weatherFacultyItems List of WeatherFacultyItem objects.
+     * @return A list of aggregated WeatherFacultyItem objects, one for each day.
+     * **/
     fun aggregateWeatherFacultyDataByDay(weatherFacultyItems: List<WeatherFacultyItem>): List<WeatherFacultyItem> {
         val aggregatedData = mutableListOf<WeatherFacultyItem>()
 
@@ -114,7 +141,12 @@ object WeatherDataConverter {
 
         return aggregatedData.take(5) // Take data for up to 5 days
     }
-
+    /**
+     * Processes and rounds temperatures in a list of WeatherFacultyItem objects.
+     *
+     * @param weatherFacultyData List of WeatherFacultyItem objects.
+     * @return A list of WeatherFacultyItem objects with processed temperature values.
+     * **/
     fun processAndRoundWeatherFacultyData(weatherFacultyData: List<WeatherFacultyItem>): List<WeatherFacultyItem> {
         return weatherFacultyData.map { item ->
             item.copy(
@@ -125,7 +157,13 @@ object WeatherDataConverter {
             )
         }
     }
-
+    /**
+     * Aggregate weather data for a single day from a list of WeatherFacultyItem objects.
+     * Specifically used for faculty user.
+     *
+     * @param dailyItems List of WeatherFacultyItem objects for a particular day.
+     * @return An aggregated WeatherFacultyItem object representing the day's weather.
+     * **/
     @JvmStatic
     fun aggregateWeatherFacultyItemDayData(dailyItems: List<WeatherFacultyItem>): WeatherFacultyItem {
         val filteredItems = dailyItems.filter { item ->

@@ -64,18 +64,11 @@ class RegistrationActivityTest {
         onView(withId(R.id.reg_password_textinput)).perform(typeText("Password123"), closeSoftKeyboard())
         onView(withId(R.id.reg_retype_pass_textinput)).perform(typeText("Password123"), closeSoftKeyboard())
         onView(withId(R.id.reg_register_button)).perform(click())
-
-        // Verify that the registration was successful or that the next expected behavior occurs
-        // For example, if a success message is displayed:
-        // onView(withText("Registration successful")).check(matches(isDisplayed()))
     }
 
     @Test
     fun registrationActivity_NavigateBackToLogin() {
         onView(withId(R.id.reg_login_button)).perform(click())
-
-        // Verify that the app navigates back to the LoginActivity
-        // onView(withId(R.id.login_activity_view_id)).check(matches(isDisplayed()))
     }
 
     // Custom matcher for checking text color

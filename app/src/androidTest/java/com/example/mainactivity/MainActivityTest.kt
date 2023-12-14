@@ -46,10 +46,6 @@ class MainActivityTest {
     fun testButton_isDisplayedAndClickable() {
         onView(withId(R.id.generate_rand_act_button)).check(matches(isDisplayed()))
         onView(withId(R.id.generate_rand_act_button)).perform(click())
-
-        // Add assertions to check the expected behavior after clicking the button.
-        // For example, if clicking the button should display a new text in activity_short_desc_textView:
-        // onView(withId(R.id.activity_short_desc_textView)).check(matches(withText("New text after click")))
     }
 
     @Test
@@ -63,7 +59,6 @@ class MainActivityTest {
     fun editTextAndButtonInteractionTest() {
         onView(withId(R.id.zipcode_editTextNumber)).perform(typeText("12345"), closeSoftKeyboard())
         onView(withId(R.id.zipcode_enter_button)).perform(click())
-        // Assertions or verifications after button click
     }
 
     @Test
@@ -82,9 +77,6 @@ class MainActivityTest {
     @Test
     fun logoutButtonClickTest() {
         onView(withId(R.id.logoutButton)).perform(click())
-        // Assertions to verify logout behavior, like returning to the login screen
-        // For example, if logout navigates to a login screen:
-        // onView(withId(R.id.login_screen_id)).check(matches(isDisplayed()))
     }
 
 }

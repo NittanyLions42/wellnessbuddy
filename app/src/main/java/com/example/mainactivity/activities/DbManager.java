@@ -12,15 +12,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.Objects;
-
-public class dbManager {
+/**
+ * DbManager class manages database connections and operation for user
+ * authentication and registration.
+ * **/
+public class DbManager {
     public boolean localVar;
 
-    dbManager()
+    DbManager()
     {
         localVar  =true;
     }
-
+    /**
+     * Attempts to login with provided credentials.
+     *
+     * @param credential The credentials for login.
+     * @return true if login is successful, false otherwise
+     * @throws RuntimeException if unable to connect to the database.
+     * **/
     public boolean tryLogin(Credential credential) throws RuntimeException {
         try (Connection con = connectionclass()) {
             if(con == null)
@@ -50,8 +59,14 @@ public class dbManager {
         }
         return false;
     }
-
-
+    /**
+     * Registers a new user with the provided user ID, password, and faculty status.
+     *
+     * @param userID The user ID for the new user.
+     * @param passcode The user password for the new user.
+     * @param isFaculty Whether user is faculty or not.
+     * @return true if the user is successfully registered.
+     * **/
     public boolean registerUser(String userID, String passcode, boolean isFaculty)
     {
         try {
@@ -90,6 +105,11 @@ public class dbManager {
         return false;
     }
 
+    /**
+     * Establishes a connection to the database
+     *
+     * @return The database connection
+     * **/
     @SuppressLint({"NewApi", "AuthLeak"})
     public Connection connectionclass()
     {
@@ -114,6 +134,12 @@ public class dbManager {
         return connection;
     }
 
+    /**
+     * Checks if a given UserID already exists in the database.
+     *
+     * @param desiredUsername the userID to check.
+     * @return true if the userID exists, false otherwise.
+     * **/
     public boolean checkUserID(@NotNull String desiredUsername) {
         boolean usernameExists = false;
 

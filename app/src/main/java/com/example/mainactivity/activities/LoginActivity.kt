@@ -10,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mainactivity.R
 import com.example.mainactivity.databinding.ActivityLoginBinding
 import com.google.android.material.textfield.TextInputEditText
-
+/**
+ * LoginActivity handles the user login process. It provides interfaces for user input
+ * and directs users to either the main or faculty activity based on their credentials.
+ * **/
 class LoginActivity : AppCompatActivity() {
 
 
-    // Added binding variable KF 11/22/2023
+    // Late initialization of binding to link with the layout
     private  lateinit var binding: ActivityLoginBinding
 
 
@@ -50,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
             val passcode = passcodeEditText.text.toString()
 
-            val dbMan = dbManager()
+            val dbMan = DbManager()
 
             val credential = Credential(username, passcode)
 
@@ -91,6 +94,9 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Shows an error dialog if login fails.
+     * **/
     private fun showLoginError() {
         val builder = AlertDialog.Builder(this)
 
@@ -105,6 +111,10 @@ class LoginActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    /**
+     * Shows a dialog with a custom error message
+     * @param msg The message to be displayed in the dialog
+     * **/
     private fun showPushError(msg: String) {
         val builder = AlertDialog.Builder(this)
 

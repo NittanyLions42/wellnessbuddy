@@ -31,8 +31,6 @@ class LoginActivityTest {
         onView(withId(R.id.login_username_edittext)).perform(typeText("validUsername"), closeSoftKeyboard())
         onView(withId(R.id.login_password_edittext)).perform(typeText("validPassword"), closeSoftKeyboard())
         onView(withId(R.id.login_button)).perform(click())
-
-        // Verify that the app navigates to the main activity or shows a success message
     }
 
     @Test
@@ -40,15 +38,11 @@ class LoginActivityTest {
         onView(withId(R.id.login_username_edittext)).perform(typeText("invalidUsername"), closeSoftKeyboard())
         onView(withId(R.id.login_password_edittext)).perform(typeText("invalidPassword"), closeSoftKeyboard())
         onView(withId(R.id.login_button)).perform(click())
-
-        // Verify that the app shows an error message or stays on the login screen
     }
 
     @Test
     fun loginActivity_NavigateToRegister() {
         onView(withId(R.id.register_button)).perform(click())
-
-        // Verify that the app navigates to the register activity
     }
 
 }

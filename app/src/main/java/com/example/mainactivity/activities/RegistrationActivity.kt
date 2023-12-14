@@ -10,7 +10,10 @@ import androidx.core.content.ContextCompat
 import com.example.mainactivity.R
 import com.example.mainactivity.databinding.ActivityRegistrationBinding
 import com.google.android.material.textfield.TextInputEditText
-
+/**
+ * RegisterActivity handles user registration. It provides interface for user input and
+ * processes registration requests.
+ * **/
 class RegistrationActivity : AppCompatActivity() {
 
     // Added binding variable KF 12/1/2023
@@ -40,14 +43,16 @@ class RegistrationActivity : AppCompatActivity() {
             updateLabelColors(facultyLabel, studentLabel, isChecked)
         }
 
+        // Listener for login button. Takes you back to login activity
         binding.regLoginButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
+        // Listener for register button. An attempt to create the user is made
         binding.regRegisterButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
-            val dbMan = dbManager()
+            val dbMan = DbManager()
             var editText = findViewById<TextInputEditText>(R.id.reg_usermame_textinput)
             val username = editText.text.toString()
             editText = findViewById(R.id.reg_password_textinput)
@@ -72,7 +77,12 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
-    // Update the label colors based on the switch state
+    /**
+     * Updates the label colors based on the state of the switch.
+     * @param facultyLabel The label for faculty.
+     * @param studentLabel The label for students.
+     * @param isChecked The current state of the switch.
+     */
     private fun updateLabelColors(facultyLabel: TextView, studentLabel: TextView, isChecked: Boolean) {
         if (isChecked) {
             facultyLabel.setTextColor(ContextCompat.getColor(this, R.color.White_Out)) // Inactive color
@@ -83,6 +93,10 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Shows an error dialog with a custom message during registration.
+     * @param msg The message to display in the dialog.
+     */
     private fun showRegError(msg: String) {
         val builder = AlertDialog.Builder(this)
 

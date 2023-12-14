@@ -9,16 +9,31 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.math.roundToInt
-
+/**
+ * Controller for fetching and handling weather data specifically for student user.
+ *
+ * @param weatherRepository The repository to fetch weather data.
+ * @param weatherCallback The callback interface to communicate with the view.
+ * **/
 class WeatherController(
     private val weatherRepository: WeatherRepository,
     private val weatherCallback: WeatherCallback,
 ) {
+    /**
+     * Interface for callbacks to handle success or error in weather data fetching.
+     * **/
     interface WeatherCallback {
         fun onSuccess(weatherData: List<WeatherItem>)
         fun onError(error: String)
     }
 
+    /**
+     * Fetches the weather forecast based on the provided zipcode, API key, and units.
+     *
+     * @param zipCode The zipcode for which weather data is to be fetched.
+     * @param apiKey The API key for weather data access.
+     * @param units The measurement units for weather data.
+     * **/
     fun fetchWeatherForecast(
         zipCode: String,
         apiKey: String,
@@ -50,7 +65,12 @@ class WeatherController(
                 }
             })
     }
-
+    /**
+     * Converts raw weather data into a list of WeatherItem objects for UI.
+     *
+     * @param weatherData The raw weather data.
+     * @return A list of WeatherItem objects.
+     * **/
     private fun convertDataToWeatherItems(weatherData: FiveDayForecast): List<WeatherItem> {
         val weatherItems = mutableListOf<WeatherItem>()
         val city = weatherData.city.name
@@ -79,7 +99,12 @@ class WeatherController(
 
         return weatherItems
     }
-
+    /**
+     * Determines the resource ID for the weather icon based on the weather condition.
+     *
+     * @param weatherCondition The current weather condition.
+     * @return The resource ID of the corresponding weather icon.
+     * **/
     private fun getWeatherIconResourceId(weatherCondition: String): Int {
         return when (weatherCondition) {
             "Clear" -> R.drawable.sunny
