@@ -13,7 +13,7 @@ import android.util.Log
 class ActivitySuggestionController(private val view: MainActivity) {
 
     @SuppressLint("AuthLeak")
-    private val connectionURL = "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request"
+    private val connectionURL = ""
 
     data class ActivityRecommendation(
         val title: String,
