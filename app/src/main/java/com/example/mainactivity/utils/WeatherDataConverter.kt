@@ -159,14 +159,10 @@ object WeatherDataConverter {
         val formattedAverageTemperature = String.format("%.0f°F", averageTemperature)
 
         val firstPrecipitation = filteredItems.firstOrNull()?.precipitation ?: "0.0 in"
-        val averageCloudCover = dailyItems.map { it.cloudCover.toDoubleOrNull() ?: 0.0 }.average().roundToInt().toString() + "%"
+        val averageCloudCover = filteredItems.firstOrNull()?.cloudCover ?: "0.0 %"
+        val averageWindSpeed = filteredItems.firstOrNull()?.windSpeed ?: "0.0 mph"
+        val averageHumidity = filteredItems.firstOrNull()?.humidity ?: "0.0 %"
 
-        val averageWindSpeed = dailyItems.map { it.windSpeed.toDoubleOrNull() ?: 0.0 }.average().roundToInt().toString() + " mph"
-
-        val averageHumidity = dailyItems.map { it.humidity.toDoubleOrNull() ?: 0.0 }.average().roundToInt().toString() + "%"
-
-
-        // Choose the most frequent weather icon and temperature icon
         val mostFrequentWeatherIcon = filteredItems.groupingBy { it.weatherIcon }.eachCount().maxByOrNull { it.value }?.key ?: R.drawable.partly_suny
         val mostFrequentTempIcon = filteredItems.groupingBy { it.temperatureIcon }.eachCount().maxByOrNull { it.value }?.key ?: R.drawable.therm_icon_transparent
 
