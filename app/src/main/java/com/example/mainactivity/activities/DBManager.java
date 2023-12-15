@@ -86,6 +86,7 @@ public class DBManager {
             }
         }
         catch (SQLException e)
+
         {
             Log.e("Error: ", Objects.requireNonNull(e.getMessage()));
         }
@@ -99,6 +100,7 @@ public class DBManager {
      * **/
     @SuppressLint({"NewApi", "AuthLeak"})
     public Connection tryConnection()
+
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -108,7 +110,7 @@ public class DBManager {
         {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             //URL hidden
-            ConnectionURL = "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request";
+            ConnectionURL = "";
             connection = DriverManager.getConnection(ConnectionURL);
         } catch (SQLException | ClassNotFoundException e) {
             Log.e("Error: ", Objects.requireNonNull(e.getMessage()));
