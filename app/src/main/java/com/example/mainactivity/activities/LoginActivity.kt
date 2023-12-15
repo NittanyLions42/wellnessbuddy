@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
             val passcode = passcodeEditText.text.toString()
 
-            val dbMan = DbManager()
+            val dbMan = DBManager()
 
             val credential = Credential(username, passcode)
 

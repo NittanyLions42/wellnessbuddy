@@ -13,13 +13,13 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.Objects;
 /**
- * DbManager class manages database connections and operation for user
+ * DBManager class manages database connections and operation for user
  * authentication and registration.
  * **/
-public class DbManager {
+public class DBManager {
     public boolean localVar;
 
-    DbManager()
+    DBManager()
     {
         localVar  =true;
     }
