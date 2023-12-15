@@ -15,9 +15,9 @@ import android.util.Log
  * **/
 class ActivitySuggestionController(private val view: MainActivity) {
 
-    // Database connection string.
+    // Database connection string. Hidden
     @SuppressLint("AuthLeak")
-    private val connectionURL = "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request"
+    private val connectionURL = ""
 
     // Data class representing an activity recommendation
     data class ActivityRecommendation(
@@ -57,21 +57,6 @@ class ActivitySuggestionController(private val view: MainActivity) {
         }
     }
 
-//    fun fetchNewRandomActivity() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val activityType = listOf(ActivityType.INDOOR, ActivityType.OUTDOOR).random()
-//                val recommendation = fetchRandomRecommendation(activityType)
-//                withContext(Dispatchers.Main) {
-//                    view.displayActivityRecommendation(recommendation)
-//                }
-//            } catch (e: Exception) {
-//                withContext(Dispatchers.Main) {
-//                    view.showErrorDialog("Failed to fetch new activity: ${e.message}")
-//                }
-//            }
-//        }
-//    }
 
     /**
      * Determines the current weather condition based on the first item in the weather data list.

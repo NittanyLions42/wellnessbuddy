@@ -120,8 +120,8 @@ public class DbManager {
         try
         {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-
-            ConnectionURL = "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request";
+            //URL hidden
+            ConnectionURL = "";
             connection = DriverManager.getConnection(ConnectionURL);
         } catch (SQLException | ClassNotFoundException e) {
             Log.e("Error: ", Objects.requireNonNull(e.getMessage()));
