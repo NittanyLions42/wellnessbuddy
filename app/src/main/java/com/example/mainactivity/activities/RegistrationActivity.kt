@@ -52,6 +52,7 @@ class RegistrationActivity : AppCompatActivity() {
         // Listener for register button. An attempt to create the user is made
         binding.regRegisterButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
+            val dbMan = DBManager()
             var editText = findViewById<TextInputEditText>(R.id.reg_usermame_textinput)
             val username = editText.text.toString()
             editText = findViewById(R.id.reg_password_textinput)
@@ -61,11 +62,11 @@ class RegistrationActivity : AppCompatActivity() {
 
             if(passcode == rePasscode)
             {
-                if(!DbManager.checkUserID(username))
+                if(!dbMan.checkUserID(username))
                 {
                     passcode = Credential.digestPasscode(rePasscode)
                     try{
-                        if(DbManager.registerUser(username, passcode, !switchCompat.isChecked))
+                        if(dbMan.registerUser(username, passcode, !switchCompat.isChecked))
                         {
                             startActivity(intent)
                         }

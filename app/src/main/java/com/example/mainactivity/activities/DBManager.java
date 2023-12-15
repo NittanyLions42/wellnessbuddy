@@ -16,7 +16,7 @@ import java.util.Objects;
  * DbManager class manages database connections and operation for user
  * authentication and registration.
  * **/
-public class DbManager {
+public class DBManager {
 
     /**
      * Attempts to login with provided credentials.
@@ -25,7 +25,7 @@ public class DbManager {
      * @return true if login is successful, false otherwise
      * @throws RuntimeException if unable to connect to the database.
      * **/
-    public static boolean tryLogin(Credential credential) throws RuntimeException {
+    public boolean tryLogin(Credential credential) throws RuntimeException {
         try (Connection con = tryConnection()) {
             if(con == null)
                 throw new RuntimeException("Can't connect to the database.");
@@ -62,7 +62,7 @@ public class DbManager {
      * @param isFaculty Whether user is faculty or not.
      * @return true if the user is successfully registered.
      * **/
-    public static boolean registerUser(String userID, String passcode, boolean isFaculty) throws RuntimeException
+    public boolean registerUser(String userID, String passcode, boolean isFaculty) throws RuntimeException
     {
         try (Connection con = tryConnection()) {
             if(con == null)
@@ -98,7 +98,7 @@ public class DbManager {
      * @return The database connection
      * **/
     @SuppressLint({"NewApi", "AuthLeak"})
-    public static Connection tryConnection()
+    public Connection tryConnection()
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -108,7 +108,7 @@ public class DbManager {
         {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             //URL hidden
-            ConnectionURL = "";
+            ConnectionURL = "jdbc:jtds:sqlserver://wellnessbuddy.database.windows.net:1433;DatabaseName=wellnessbuddyDB;user=java@wellnessbuddy;password=WellnessBuddy23;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;ssl=request";
             connection = DriverManager.getConnection(ConnectionURL);
         } catch (SQLException | ClassNotFoundException e) {
             Log.e("Error: ", Objects.requireNonNull(e.getMessage()));
@@ -127,7 +127,7 @@ public class DbManager {
      * @param desiredUsername the userID to check.
      * @return true if the userID exists, false otherwise.
      * **/
-    public static boolean checkUserID(@NotNull String desiredUsername) {
+    public boolean checkUserID(@NotNull String desiredUsername) {
         boolean usernameExists = false;
 
         // Using try-with-resources to automatically close resources

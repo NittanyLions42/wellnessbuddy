@@ -55,9 +55,11 @@ class LoginActivity : AppCompatActivity() {
 
             val credential = Credential(username, passcode)
 
+            val dbMan = DBManager()
+
             try
             {
-                if(DbManager.tryLogin(credential))
+                if(dbMan.tryLogin(credential))
                 {
                     if(credential.isFaculty)
                         startActivity(intentFacultyActivity)
