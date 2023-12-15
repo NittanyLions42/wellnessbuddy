@@ -1,4 +1,9 @@
 package com.example.mainactivity.activities;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
 /**
  * The Credential class represents user credentials within the system.
  * It stores a user ID, password, and flag indicating whether user is faculty.
@@ -51,6 +56,27 @@ public class Credential {
      * **/
     public boolean isFaculty() {
         return isFaculty;
+    }
+
+    /**
+     * Digests the given String into a byte array using SHA-256.
+     *
+     * @param input the String to be digested.
+     * @return The byte array cast to a String.
+     */
+    public static String digestPasscode(String input)
+    {
+        MessageDigest md;
+        try
+        {
+            md = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException nsae)
+        {
+            throw new RuntimeException("Error: " + nsae.getMessage());
+        }
+        byte[] outputByteArray = md.digest(input.getBytes());
+        return Arrays.toString(outputByteArray);
     }
 
 }

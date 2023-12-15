@@ -13,16 +13,11 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.Objects;
 /**
- * DBManager class manages database connections and operation for user
+ * DbManager class manages database connections and operation for user
  * authentication and registration.
  * **/
 public class DBManager {
-    public boolean localVar;
 
-    DBManager()
-    {
-        localVar  =true;
-    }
     /**
      * Attempts to login with provided credentials.
      *
@@ -31,7 +26,7 @@ public class DBManager {
      * @throws RuntimeException if unable to connect to the database.
      * **/
     public boolean tryLogin(Credential credential) throws RuntimeException {
-        try (Connection con = connectionclass()) {
+        try (Connection con = tryConnection()) {
             if(con == null)
                 throw new RuntimeException("Can't connect to the database.");
             // Create a prepared statement with a parameterized query
@@ -67,38 +62,31 @@ public class DBManager {
      * @param isFaculty Whether user is faculty or not.
      * @return true if the user is successfully registered.
      * **/
-    public boolean registerUser(String userID, String passcode, boolean isFaculty)
+    public boolean registerUser(String userID, String passcode, boolean isFaculty) throws RuntimeException
     {
-        try {
-            Connection con = connectionclass();
+        try (Connection con = tryConnection()) {
             if(con == null)
-            {
-                System.out.println("boo");
-                return false;
-            }
-            else {
-                System.out.println("it works!");
+                throw new RuntimeException("Can't connect to the database.");
+            String sql = "INSERT INTO credentials (userID, passcode, isFaculty) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+                preparedStatement.setString(1, userID);
+                preparedStatement.setString(2, passcode);
+                preparedStatement.setBoolean(3, isFaculty);
 
-                String sql = "INSERT INTO credentials (userID, passcode, isFaculty) VALUES (?, ?, ?)";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
-                    preparedStatement.setString(1, userID);
-                    preparedStatement.setString(2, passcode);
-                    preparedStatement.setBoolean(3, isFaculty);
+                // Execute the update
+                int rowsAffected = preparedStatement.executeUpdate();
 
-                    // Execute the update
-                    int rowsAffected = preparedStatement.executeUpdate();
-
-                    if (rowsAffected > 0) {
-                        System.out.println("User created successfully!");
-                        return true;
-                    } else {
-                        System.out.println("Failed to create user.");
-                        return false;
-                    }
+                if (rowsAffected > 0) {
+                    System.out.println("User created successfully!");
+                    return true;
+                } else {
+                    System.out.println("Failed to create user.");
+                    return false;
                 }
             }
         }
-        catch (Exception e)
+        catch (SQLException e)
+
         {
             Log.e("Error: ", Objects.requireNonNull(e.getMessage()));
         }
@@ -111,7 +99,8 @@ public class DBManager {
      * @return The database connection
      * **/
     @SuppressLint({"NewApi", "AuthLeak"})
-    public Connection connectionclass()
+    public Connection tryConnection()
+
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -144,7 +133,7 @@ public class DBManager {
         boolean usernameExists = false;
 
         // Using try-with-resources to automatically close resources
-        try (Connection con = connectionclass()) {
+        try (Connection con = tryConnection()) {
             // The SQL query to check if the username exists
             String sqlQuery = "SELECT COUNT(*) AS userCount FROM credentials WHERE userID = ?";
 

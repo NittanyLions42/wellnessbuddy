@@ -51,11 +51,11 @@ class LoginActivity : AppCompatActivity() {
 
             val passcodeEditText = findViewById<TextInputEditText>(R.id.login_password_edittext)
 
-            val passcode = passcodeEditText.text.toString()
-
-            val dbMan = DBManager()
+            val passcode = Credential.digestPasscode(passcodeEditText.text.toString())
 
             val credential = Credential(username, passcode)
+
+            val dbMan = DBManager()
 
             try
             {
