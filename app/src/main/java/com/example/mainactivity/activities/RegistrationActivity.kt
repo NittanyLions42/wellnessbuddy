@@ -52,21 +52,27 @@ class RegistrationActivity : AppCompatActivity() {
         // Listener for register button. An attempt to create the user is made
         binding.regRegisterButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
-            val dbMan = DbManager()
             var editText = findViewById<TextInputEditText>(R.id.reg_usermame_textinput)
             val username = editText.text.toString()
             editText = findViewById(R.id.reg_password_textinput)
-            val passcode = editText.text.toString()
+            var passcode = editText.text.toString()
             editText = findViewById(R.id.reg_retype_pass_textinput)
             val rePasscode = editText.text.toString()
 
             if(passcode == rePasscode)
             {
-                if(!dbMan.checkUserID(username))
+                if(!DbManager.checkUserID(username))
                 {
-                    if(dbMan.registerUser(username, passcode, !switchCompat.isChecked))
+                    passcode = Credential.digestPasscode(rePasscode)
+                    try{
+                        if(DbManager.registerUser(username, passcode, !switchCompat.isChecked))
+                        {
+                            startActivity(intent)
+                        }
+                    }
+                    catch(e: RuntimeException)
                     {
-                        startActivity(intent)
+                        showPushError(e.toString())
                     }
                 }
                 else
@@ -101,6 +107,24 @@ class RegistrationActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
 
         builder.setTitle("Registration Error")
+        builder.setMessage(msg)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    /**
+     * Shows a dialog with a custom error message
+     * @param msg The message to be displayed in the dialog
+     * **/
+    private fun showPushError(msg: String) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Login Error")
         builder.setMessage(msg)
 
         builder.setPositiveButton("OK") { dialog, _ ->

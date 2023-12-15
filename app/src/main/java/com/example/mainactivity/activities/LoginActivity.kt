@@ -51,15 +51,13 @@ class LoginActivity : AppCompatActivity() {
 
             val passcodeEditText = findViewById<TextInputEditText>(R.id.login_password_edittext)
 
-            val passcode = passcodeEditText.text.toString()
-
-            val dbMan = DbManager()
+            val passcode = Credential.digestPasscode(passcodeEditText.text.toString())
 
             val credential = Credential(username, passcode)
 
             try
             {
-                if(dbMan.tryLogin(credential))
+                if(DbManager.tryLogin(credential))
                 {
                     if(credential.isFaculty)
                         startActivity(intentFacultyActivity)
